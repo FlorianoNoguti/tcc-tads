@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+
+<body>
+	<f:view contentType="text/html">
+		<h:head>
+			<f:facet name="first">
+				<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+				<title>Sistema de gestão de veiculos</title>
+			</f:facet>
+
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/css/default.css" />
+			<link type="text/css" rel="stylesheet"
+				href="#{request.contextPath}/css/syntaxhighlighter.css" />
+
+			<style type="text/css">
+.banner1 {
+	float: left;
+}
+
+.banner2 {
+	float: left;
+	width: 48%;
+}
+
+.rodape {
+	/*background-color: rgb(86,155,42);*/
+	width: 100%;
+	height: 100%;
+	color: rgb(86, 155, 42);
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.login {
+	/*                    position:relative;
+                                        top:50%;
+                                        left:50%;
+                                        margin-top:-50px;
+                                        margin-left:-50px;*/
+	margin-top: 120px;
+}
+
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+</style>
+		</h:head>
+
+		<h:body>
+
+			<p:layout fullPage="true">
+
+				<p:layoutUnit position="north" size="150" resizable="true"
+					closable="true" collapsible="true">
+					<ui:insert name="top">
+						<div>
+							<img width="100%" height="140px" src="imagens/baner_codac.jpg" />
+
+						</div>
+						<div class="banner2"></div>
+
+					</ui:insert>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="south" size="40" closable="true"
+					collapsible="true">
+					<div class="rodape">Desenvolvido por: TYLTS 2015</div>
+				</p:layoutUnit>
+
+
+
+				<p:layoutUnit position="center">
+
+					<ui:insert name="content">
+						<div class="login">
+
+
+
+							<center>
+
+
+
+
+
+								<p:panel id="panelGrid" header="Login"
+									footer="Use seu RA como login e data de aniversário como senha"
+									style="width: 300px">
+									<h:panelGrid columns="2">
+										<h:outputText value="Usuario/Senha Incorreto"
+											rendered="#{param.error==true}" />
+										<form action="j_spring_security_check" method="post">
+
+											Login:
+											<h:inputText id="j_username" />
+											<br /> Senha:
+											<h:inputText id="j_password" />
+											<br />
+											<h:commandButton value="Acessar" class="ui-button" />
+										</form>
+
+										<br />
+									</h:panelGrid>
+								</p:panel>
+
+
+							</center>
+
+
+
+
+						</div>
+					</ui:insert>
+				</p:layoutUnit>
+			</p:layout>
+
+		</h:body>
+
+	</f:view>
+
+</body>
+</html>
