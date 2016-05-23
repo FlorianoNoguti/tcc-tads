@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="tccTadsPU" transaction-type="RESOURCE_LOCAL">
-		<class>br.com.vans.modelo.Pessoa</class>
+	
+	<!-- entidades mapeadas -->
+		<class>br.com.tads.modelo.Veiculo</class>
+		<class>br.com.tads.modelo.Estado</class>
+		<class>br.com.tads.modelo.Cidade</class>
+		<class>br.com.tads.modelo.Pessoa</class>
+		<class>br.com.tads.modelo.PessoaJuridica</class>
+		<class>br.com.tads.modelo.PessoaFisica</class>
 
 		<properties>
 
+		<!-- dados da conexao -->
 			<property name="hibernate.connection.username" value="root" />
 			<property name="hibernate.connection.password" value="san01xlz " />
 			<property name="hibernate.connection.url"
