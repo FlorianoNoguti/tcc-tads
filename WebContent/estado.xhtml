@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="idEstado" value="#{estadoBean.idEstado}" />
+		<f:viewAction action="#{estadoBean.carregarEstadoPelaId()}"
+			if="#{param.idEstado != null}" />
+	</f:metadata>
+
+	<ui:define name="titulo">
+			<p:outputPanel>Cadastro de Estado</p:outputPanel>
+		</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="estado">
+			<p:fieldset legend="Estado">
+
+				<h:panelGrid columns="3">
+
+					<p:outputLabel value="Nome do Estado:" for="nomeEstado" />
+					<p:inputText id="nomeEstado" value="#{estadoBean.estado.nome}"
+						required="true">
+						<f:validateLength minimum="5" />
+						<f:ajax event="blur" render="messageNome" />
+					</p:inputText>
+					<p:message for="nomeEstado" id="messageNome" />
+
+					<p:outputLabel value="Sigla:" for="sigla" />
+					<p:inputText id="sigla" value="#{estadoBean.estado.sigla}"
+						required="true">
+						<f:validateLength maximum="2" />						
+						<f:ajax event="blur" render="messageSigla" />						
+					</p:inputText>
+
+					<p:message for="sigla" id="messageSigla" />
+
+					<p:commandButton value="Gravar" action="#{estadoBean.gravar}" 
+							process="@form" update="@form :formTabelaEstados" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+
+
+		 <h:form id="formTabelaEstados">
+			<p:dataList value="#{estadoBean.estados}" var="estado"
+				type="definition" > 
+				<f:facet name="header">
+				Estados
+				</f:facet>
+				<p:commandButton icon="fa fa-fw fa-edit" update=":estado">
+					<f:setPropertyActionListener value="#{estado}"
+						target="#{estadoBean.estado}" />
+				</p:commandButton>
+
+				 <p:commandButton icon="fa fa-fw fa-remove"
+					action="#{estadoBean.remover(estado)}" update="@form" /> 
+
+       		   #{estado.nome} - #{estado.sigla}
+			</p:dataList>
+		</h:form> 
+	</ui:define>
+
+</ui:composition>
+
+</html>

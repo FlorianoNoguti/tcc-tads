@@ -4,20 +4,18 @@ import br.com.tads.modelo.Estado;
 
 
 public class TesteConexao {
-
 	
 
 		public static void main(String[] args) {
 
-			DAOGenerico dao = new DAOGenerico();
+			DAO dao = new DAO(null);
 			Estado estado = new Estado();
 			
-			estado.setNome("Paraná");
-			estado.setSigla_estado("PR");
+			estado.setNome("Santa Catarina");
+			estado.setSigla("SC");
 			
-			System.out.println("Funcionaaaaa");
 			
-			dao.inserir(estado);
+			dao.adiciona(estado);
 
 		}
 	}

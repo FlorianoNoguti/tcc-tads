@@ -24,7 +24,25 @@ public abstract class Pessoa implements Serializable {
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
+	
+	@Column(nullable=false)
+	@NotNull(message="Campo nome deve ser preenchido")
+	private String nome;
+	
+	@Enumerated(EnumType.STRING)
+	private Sexo sexo;
 
+	private Date dataNascimento;
+	
+	@Column(length=11)
+	private String cpf;
+	
+	private String rg;
+	
+	@Column(length=5)
+	private String orgaoEmissorRg;
+	
+	
 	@Column(nullable = false)
 	@NotNull(message = "Campo CEP deve ser preenchido")
 	private String cep;
@@ -60,7 +78,10 @@ public abstract class Pessoa implements Serializable {
 	private String telefone;
 	
 	
-	private String email;
+	private String email1;
+	
+	private String email2;
+	
 
 	private Double latitude;
 
@@ -77,12 +98,62 @@ public abstract class Pessoa implements Serializable {
 		return id;
 	}
 
+	
+
 	public Date getDataCadastro() {
 		return dataCadastro;
 	}
 
 	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public Sexo getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public String getOrgaoEmissorRg() {
+		return orgaoEmissorRg;
+	}
+
+	public void setOrgaoEmissorRg(String orgaoEmissorRg) {
+		this.orgaoEmissorRg = orgaoEmissorRg;
 	}
 
 	public String getCep() {
@@ -157,6 +228,22 @@ public abstract class Pessoa implements Serializable {
 		this.telefone = telefone;
 	}
 
+	public String getEmail1() {
+		return email1;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public String getEmail2() {
+		return email2;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -180,5 +267,9 @@ public abstract class Pessoa implements Serializable {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
+
+	
+
+	
 
 }

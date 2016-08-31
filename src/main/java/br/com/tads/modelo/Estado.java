@@ -25,29 +25,34 @@ public class Estado implements Serializable {
 	private String nome;
 	
 	
-	@Column(name="sigla_estado",length=2)
+	@Column(name="sigla",length=2)
 	@NotNull(message="Sigla não pode ser vazia")
-	private String sigla_estado;
+	private String sigla;
 	
 
 	public Estado() {
 		super();
 	}   
-	public Id getId_estado() {
-		return this.getId_estado();
-	}
+	
 	public String getNome() {
 		return nome;
 	}
+	public Long getId() {
+		return id;
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getSigla_estado() {
-		return sigla_estado;
+
+	public String getSigla() {
+		return sigla;
 	}
-	public void setSigla_estado(String sigla_estado) {
-		this.sigla_estado = sigla_estado;
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
+	
 	
 
 	
