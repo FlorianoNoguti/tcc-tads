@@ -42,6 +42,7 @@ public class DAO<T> {
 		em.remove(em.merge(t));
 
 		em.getTransaction().commit();
+		listaTodos();
 		em.close();
 	}
 
@@ -59,9 +60,7 @@ public class DAO<T> {
 		EntityManager em = new JPAUtil().getEntityManager();
 		CriteriaQuery<T> query = em.getCriteriaBuilder().createQuery(classe);
 		query.select(query.from(classe));
-
 		List<T> lista = em.createQuery(query).getResultList();
-
 		em.close();
 		return lista;
 	}

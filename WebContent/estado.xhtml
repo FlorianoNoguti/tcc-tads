@@ -15,56 +15,93 @@
 	</f:metadata>
 
 	<ui:define name="titulo">
-			<p:outputPanel>Cadastro de Estado</p:outputPanel>
-		</ui:define>
+		<p:outputPanel>Cadastro de Estado</p:outputPanel>
+	</ui:define>
 
 	<ui:define name="conteudo">
-		<h:form id="estado">
-			<p:fieldset legend="Estado">
 
-				<h:panelGrid columns="3">
 
-					<p:outputLabel value="Nome do Estado:" for="nomeEstado" />
-					<p:inputText id="nomeEstado" value="#{estadoBean.estado.nome}"
-						required="true">
-						<f:validateLength minimum="5" />
-						<f:ajax event="blur" render="messageNome" />
-					</p:inputText>
-					<p:message for="nomeEstado" id="messageNome" />
+		<h:form id="formTabelaEstados">
 
-					<p:outputLabel value="Sigla:" for="sigla" />
-					<p:inputText id="sigla" value="#{estadoBean.estado.sigla}"
-						required="true">
-						<f:validateLength maximum="2" />						
-						<f:ajax event="blur" render="messageSigla" />						
-					</p:inputText>
+			<p:commandButton value="Incluir estado"
+				oncomplete="PF('dialogCadastroEstado').show();"
+				update=":formCadastroEstado"
+				actionListener="#{estadoBean.criarNovoObjetoEstado()}" />
+			<br></br>
 
-					<p:message for="sigla" id="messageSigla" />
+			<p:dataTable value="#{estadoBean.estados}" var="estado"
+				style="margin-bottom:0" rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100">
+				<f:facet name="header">
+					<h:outputText value="Estados" />
+				</f:facet>
+				<p:column headerText="Estado" filterBy="#{estado.nome}"
+					filterMatchMode="contains">
+					<h:outputText value="#{estado.nome}" />
+				</p:column>
 
-					<p:commandButton value="Gravar" action="#{estadoBean.gravar}" 
-							process="@form" update="@form :formTabelaEstados" />
-				</h:panelGrid>
-			</p:fieldset>
+				<p:column headerText="Sigla" filterBy="#{estado.sigla}"
+					filterMatchMode="contains">
+					<h:outputText value="#{estado.sigla}" />
+				</p:column>
+
+				<p:column style="width:100px" headerText="Ações">
+
+					<p:commandButton title="Alterar" alt="Alterar" update="@this"
+						icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{estado}"
+							target="#{estadoBean.estado}" />
+					</p:commandButton>
+
+
+					<p:commandButton actionListener="#{estadoBean.remover(estado)}"
+						icon="ui-icon-trash" title="Inativar" update="@form"
+						alt="Inativar">
+						<p:confirm header="Confirmação" message="Deseja inativar?" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" update="@form" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
 
+		<p:dialog widgetVar="dialogCadastroEstado" width="400" height="200"
+			modal="true" appendTo="@(body)" resizable="false">
+			<h:form id="formCadastroEstado">
+				<h:panelGrid columns="2">
+					<p:outputLabel value="Nome do Estado:"/>
+					<br></br>
+					<p:inputText id="nomeEstado" value="#{estadoBean.estado.nome}" 
+					required="true"	requiredMessage="campo obrigatorio">
+						<f:validateLength minimum="4"/>
+						<f:ajax event="blur" render="messageNome"/>
+					</p:inputText>
+					<p:message for="nomeEstado" id="messageNome"/>
+					
+					<p:outputLabel value="Sigla:" for="sigla"/>
+					<br></br>					
+					<p:inputText id="sigla" value="#{estadoBean.estado.sigla}"
+						required="true" requiredMessage="campo obrigatorio">
+						<f:validateLength maximum="2" minimum="2"/>
+						<f:ajax event="blur" render="messageSigla"/>
+					</p:inputText>
+					<p:message for="sigla" id="messageSigla"/>
+					
+					<p:commandButton value="Salvar Dados"
+						actionListener="#{estadoBean.gravar}" 
+						oncomplete="PF('dialogCadastroEstado').hide()"
+						update=":formTabelaEstados"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 
-		 <h:form id="formTabelaEstados">
-			<p:dataList value="#{estadoBean.estados}" var="estado"
-				type="definition" > 
-				<f:facet name="header">
-				Estados
-				</f:facet>
-				<p:commandButton icon="fa fa-fw fa-edit" update=":estado">
-					<f:setPropertyActionListener value="#{estado}"
-						target="#{estadoBean.estado}" />
-				</p:commandButton>
-
-				 <p:commandButton icon="fa fa-fw fa-remove"
-					action="#{estadoBean.remover(estado)}" update="@form" /> 
-
-       		   #{estado.nome} - #{estado.sigla}
-			</p:dataList>
-		</h:form> 
 	</ui:define>
 
 </ui:composition>

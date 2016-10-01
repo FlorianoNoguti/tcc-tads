@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.com.tads.dao.DAO;
+import br.com.tads.modelo.Cidade;
 import br.com.tads.modelo.Estado;
 
 
@@ -21,6 +22,8 @@ public class EstadoBean implements Serializable{
 	private Estado estado = new Estado();
 	
 	private Long idEstado;
+	
+	private List<Estado> estados;
 	
 
 	
@@ -52,9 +55,19 @@ public class EstadoBean implements Serializable{
 	
 	
 	public List<Estado> getEstados() {
-		return new DAO<Estado>(Estado.class).listaTodos();
+		DAO<Estado> dao = new DAO<Estado>(Estado.class);
+		if(this.estados == null){
+			this.estados = dao.listaTodos();
+		}
+		return estados;
 		
-		}	
+		}
+	
+	public void criarNovoObjetoEstado() {
+        estado = new Estado();
+    }
+	
+	
 	
 	public Estado getEstado() {
 		return estado;
