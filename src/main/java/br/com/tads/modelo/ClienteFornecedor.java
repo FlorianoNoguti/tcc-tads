@@ -2,9 +2,11 @@ package br.com.tads.modelo;
 
 import br.com.tads.modelo.Pessoa;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -15,21 +17,29 @@ public class ClienteFornecedor extends Pessoa implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	/*usuario seleciona tipo pessoa fisica ou juridica
-	 true=juridica false=fisica* */
-	private Boolean tipoPessoa;
-	
 	private String nomeResponsavel;
 	
 	private String cpfResponsavel;
 	
-	private String cnpj;
+	private String rgResponsavel;
 	
-	private String inscricaoEstadual;
+	
+	@Column(length=14)
+	private String cpfCnpj;
+	
+	private String rgInscrtadual;
+	
+	@Column(length=5)
+	private String orgaoEmissorRg;
+	
 		
-	private String nomeFantasia;
+	@Column(nullable=false)
+	@NotNull(message="Campo nome deve ser preenchido")
+	private String nomeRazaoSocial;
 	
-	private Date dataFundacao;
+	@Temporal(value=TemporalType.DATE)
+	private Date dtNascimento;
+	
 	
 	
 
@@ -39,21 +49,11 @@ public class ClienteFornecedor extends Pessoa implements Serializable {
 
 
 
-	public Boolean getTipoPessoa() {
-		return tipoPessoa;
-	}
-
-
-
-	public void setTipoPessoa(Boolean tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
-	}
-
-
 
 	public String getNomeResponsavel() {
 		return nomeResponsavel;
 	}
+
 
 
 
@@ -63,9 +63,11 @@ public class ClienteFornecedor extends Pessoa implements Serializable {
 
 
 
+
 	public String getCpfResponsavel() {
 		return cpfResponsavel;
 	}
+
 
 
 
@@ -75,50 +77,95 @@ public class ClienteFornecedor extends Pessoa implements Serializable {
 
 
 
-	public String getCnpj() {
-		return cnpj;
+
+	public String getRgResponsavel() {
+		return rgResponsavel;
 	}
 
 
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+
+	public void setRgResponsavel(String rgResponsavel) {
+		this.rgResponsavel = rgResponsavel;
+	}
+
+	
+
+
+
+	public String getCpfCnpj() {
+		return cpfCnpj;
 	}
 
 
 
-	public String getInscricaoEstadual() {
-		return inscricaoEstadual;
+
+	public void setCpfCnpj(String cpfCnpj) {
+		this.cpfCnpj = cpfCnpj;
+	}
+
+
+	public String getRgInscrtadual() {
+		return rgInscrtadual;
 	}
 
 
 
-	public void setInscricaoEstadual(String inscricaoEstadual) {
-		this.inscricaoEstadual = inscricaoEstadual;
+
+	public void setRgInscrtadual(String rgInscrtadual) {
+		this.rgInscrtadual = rgInscrtadual;
 	}
 
 
 
-	public String getNomeFantasia() {
-		return nomeFantasia;
+
+	public String getNomeRazaoSocial() {
+		return nomeRazaoSocial;
 	}
 
 
 
-	public void setNomeFantasia(String nomeFantasia) {
-		this.nomeFantasia = nomeFantasia;
+
+	public void setNomeRazaoSocial(String nomeRazaoSocial) {
+		this.nomeRazaoSocial = nomeRazaoSocial;
 	}
 
 
 
-	public Date getDataFundacao() {
-		return dataFundacao;
+
+	public String getOrgaoEmissorRg() {
+		return orgaoEmissorRg;
 	}
 
 
 
-	public void setDataFundacao(Date dataFundacao) {
-		this.dataFundacao = dataFundacao;
+
+	public void setOrgaoEmissorRg(String orgaoEmissorRg) {
+		this.orgaoEmissorRg = orgaoEmissorRg;
 	}
-   
+
+
+
+
+	public Date getDtNascimento() {
+		return dtNascimento;
+	}
+
+
+
+
+	public void setDtNascimento(Date dtNascimento) {
+		this.dtNascimento = dtNascimento;
+	}
+
+
+
+
+	
+	
+	
+
+
+
+	
 }

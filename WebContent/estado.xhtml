@@ -22,6 +22,8 @@
 
 
 		<h:form id="formTabelaEstados">
+		
+		
 
 			<p:commandButton value="Incluir estado"
 				oncomplete="PF('dialogCadastroEstado').show();"
@@ -30,13 +32,13 @@
 			<br></br>
 
 			<p:dataTable value="#{estadoBean.estados}" var="estado"
-				style="margin-bottom:0" rows="20" paginator="true"
+				style="margin-bottom:0" rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,30,50,100">
 				<f:facet name="header">
 					<h:outputText value="Estados" />
 				</f:facet>
-				<p:column headerText="Estado" filterBy="#{estado.nome}"
+				<p:column headerText="Estado" filterBy="#{estado.nome}" sortBy="#{estado.nome}"
 					filterMatchMode="contains">
 					<h:outputText value="#{estado.nome}" />
 				</p:column>
@@ -48,18 +50,17 @@
 
 				<p:column style="width:100px" headerText="Ações">
 
-					<p:commandButton title="Alterar" alt="Alterar" update="@this"
-						icon="ui-icon-pencil">
+					<p:commandButton title="Alterar" alt="Alterar" oncomplete="PF('dialogCadastroEstado').show()"
+					 update=":formCadastroEstado"	icon="ui-icon-pencil">
 						<f:setPropertyActionListener value="#{estado}"
 							target="#{estadoBean.estado}" />
 					</p:commandButton>
-
-
+					
 					<p:commandButton actionListener="#{estadoBean.remover(estado)}"
 						icon="ui-icon-trash" title="Inativar" update="@form"
 						alt="Inativar">
 						<p:confirm header="Confirmação" message="Deseja inativar?" />
-					</p:commandButton>
+					</p:commandButton>				
 				</p:column>
 			</p:dataTable>
 
@@ -72,11 +73,11 @@
 			</p:confirmDialog>
 		</h:form>
 
-		<p:dialog widgetVar="dialogCadastroEstado" width="400" height="200"
+		<p:dialog header="Cadastro de Estado" widgetVar="dialogCadastroEstado" width="400" height="200"
 			modal="true" appendTo="@(body)" resizable="false">
 			<h:form id="formCadastroEstado">
 				<h:panelGrid columns="2">
-					<p:outputLabel value="Nome do Estado:"/>
+					<p:outputLabel value="Nome do Estado:" for="nomeEstado"/>
 					<br></br>
 					<p:inputText id="nomeEstado" value="#{estadoBean.estado.nome}" 
 					required="true"	requiredMessage="campo obrigatorio">
@@ -95,9 +96,9 @@
 					<p:message for="sigla" id="messageSigla"/>
 					
 					<p:commandButton value="Salvar Dados"
-						actionListener="#{estadoBean.gravar}" 
+						action="#{estadoBean.gravar()}" 
 						oncomplete="PF('dialogCadastroEstado').hide()"
-						update=":formTabelaEstados"/>
+						update=":formTabelaEstados"/>					
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>

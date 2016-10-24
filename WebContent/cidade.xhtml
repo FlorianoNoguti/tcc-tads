@@ -20,9 +20,6 @@
 
 	<ui:define name="conteudo">
 
-
-
-
 		<h:form id="formTabelaCidades">
 
 			<p:commandButton value="Incluir cidade"
@@ -39,7 +36,7 @@
 				<f:facet name="header">
 					<h:outputText value="Cidades"/>
 				</f:facet>
-				<p:column headerText="Cidade" filterBy="#{cidade.nome}"
+				<p:column headerText="Cidade" filterBy="#{cidade.nome}" sortBy="#{cidade.nome}"
 					filterMatchMode="contains">
 					<h:outputText value="#{cidade.nome}"/>
 				</p:column>
@@ -77,12 +74,12 @@
 
 			</h:form>
 
-			<p:dialog widgetVar="dialogCadastroCidade" width="400" height="200"
+			<p:dialog header="Cadastro de Cidade" widgetVar="dialogCadastroCidade" width="600" height="200"
 				modal="true" appendTo="@(body)" resizable="false" id="cidade-dialog">
 				<h:form id="formCadastroCidade">
 					<h:panelGrid columns="2">
 						<p:outputLabel value="Nome da Cidade:"/>
-						<br></br>
+						
 						<p:inputText id="nomeCidade" value="#{cidadeBean.cidade.nome}"
 							required="true" requiredMessage="campo obrigatorio">
 							<f:validateLength minimum="4" />
@@ -91,7 +88,7 @@
 						<p:message for="nomeCidade" id="messageNome"/>
 
 						<p:outputLabel value="Estado:"/>
-						<br></br>
+						
 						<p:selectOneMenu id="estado" value="#{cidadeBean.cidade.estado}"
 							converter="converterEstado" effect="fade" filter="true"
 							filterMarchMode="startsWish">

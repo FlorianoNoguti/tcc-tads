@@ -1,10 +1,13 @@
 package br.com.tads.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
 
 /**
  * Entity implementation class for Entity: Pessoa
@@ -21,43 +24,23 @@ public abstract class Pessoa implements Serializable {
 	@Column(name = "id_pessoa")
 	private Long id;
 
-	@Column(nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataCadastro;
-	
-	@Column(nullable=false)
-	@NotNull(message="Campo nome deve ser preenchido")
-	private String nome;
+	private String tipoPessoa;
+
+	private LocalDateTime dtCadastro = LocalDateTime.now();
 	
 	@Enumerated(EnumType.STRING)
-	private Sexo sexo;
-
-	private Date dataNascimento;
-	
-	@Column(length=11)
-	private String cpf;
-	
-	private String rg;
-	
-	@Column(length=5)
-	private String orgaoEmissorRg;
+	private Sexo sexo;	
 	
 	
 	@Column(nullable = false)
 	@NotNull(message = "Campo CEP deve ser preenchido")
 	private String cep;
 
-	@Column(nullable = false)
-	@NotNull(message = "Informar tipo logradouro: rua,avenida,etc")
-	private String logradouro;
 
 	@Column(nullable = false)
 	@NotNull(message = "Campo endereço deve ser preenchido")
 	private String endereco;
-
-	@Column(nullable = false)
-	@NotNull(message = "Campo número deve ser preenchido")
-	private Integer numero;
+	
 
 	@Column(nullable = false)
 	@NotNull(message = "Campo bairro deve ser preenchido")
@@ -73,11 +56,10 @@ public abstract class Pessoa implements Serializable {
 	@ManyToOne
 	private Estado estado;
 
-	@Column(nullable = false)
-	@NotNull(message = "Campo telefone deve ser preenchido")
+	@Column(nullable = false)	
 	private String telefone;
 	
-	
+	@Email
 	private String email1;
 	
 	private String email2;
@@ -88,7 +70,7 @@ public abstract class Pessoa implements Serializable {
 	private Double longitude;
 
 	@Column(nullable = false)
-	private Boolean status;
+	private Boolean status = true;
 
 	public Pessoa() {
 		super();
@@ -98,22 +80,27 @@ public abstract class Pessoa implements Serializable {
 		return id;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	
 	
 
-	public Date getDataCadastro() {
-		return dataCadastro;
+	public String getTipoPessoa() {
+		return tipoPessoa;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
-		this.dataCadastro = dataCadastro;
+	public void setTipoPessoa(String tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
 	}
 
-	public String getNome() {
-		return nome;
+	public LocalDateTime getDtCadastro() {
+		return dtCadastro;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setDtCadastro(LocalDateTime dtCadastro) {
+		this.dtCadastro = dtCadastro;
 	}
 
 	public Sexo getSexo() {
@@ -124,38 +111,6 @@ public abstract class Pessoa implements Serializable {
 		this.sexo = sexo;
 	}
 
-	public Date getDataNascimento() {
-		return dataNascimento;
-	}
-
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getRg() {
-		return rg;
-	}
-
-	public void setRg(String rg) {
-		this.rg = rg;
-	}
-
-	public String getOrgaoEmissorRg() {
-		return orgaoEmissorRg;
-	}
-
-	public void setOrgaoEmissorRg(String orgaoEmissorRg) {
-		this.orgaoEmissorRg = orgaoEmissorRg;
-	}
-
 	public String getCep() {
 		return cep;
 	}
@@ -164,14 +119,8 @@ public abstract class Pessoa implements Serializable {
 		this.cep = cep;
 	}
 
-	public String getLogradouro() {
-		return logradouro;
-	}
 
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
-	}
-
+	
 	public String getEndereco() {
 		return endereco;
 	}
@@ -179,14 +128,7 @@ public abstract class Pessoa implements Serializable {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
-	public Integer getNumero() {
-		return numero;
-	}
-
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
+	
 
 	public String getBairro() {
 		return bairro;
@@ -269,7 +211,6 @@ public abstract class Pessoa implements Serializable {
 	}
 
 	
-
 	
 
 }
