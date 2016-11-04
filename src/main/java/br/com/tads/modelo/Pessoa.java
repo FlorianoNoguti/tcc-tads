@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.Email;
 
 /**
@@ -24,29 +23,47 @@ public abstract class Pessoa implements Serializable {
 	@Column(name = "id_pessoa")
 	private Long id;
 
+	@Column(name = "tipoPessoa")
 	private String tipoPessoa;
 
 	private LocalDateTime dtCadastro = LocalDateTime.now();
-	
+
+	private Boolean status = true;
+
 	@Enumerated(EnumType.STRING)
-	private Sexo sexo;	
-	
-	
-	@Column(nullable = false)
+	private Sexo sexo;
+
+	@Column(name = "nome", nullable = false)
+	@NotNull(message = "Campo nome deve ser preenchido")
+	private String nomeRazaoSocial;
+
+	@Column(name = "dtNascimento", nullable = false)
+	@NotNull(message = "Campo data de nascimento deve ser preenchida")
+	private LocalDateTime dtNascimento;
+
+	@Column(name = "cpf_cnpj", nullable = false)
+	@NotNull(message = "Campo cpf/cnpj deve ser preenchido")
+	private String cpfCnpj;
+
+	@Column(name = "rg_inscrEstadual", nullable = false)
+	@NotNull(message = "Campo rg/inscrição estadul deve ser preenchido")
+	private String rgInscrEstadual;
+
+	@Column(nullable = false, name = "cep")
 	@NotNull(message = "Campo CEP deve ser preenchido")
 	private String cep;
-
 
 	@Column(nullable = false)
 	@NotNull(message = "Campo endereço deve ser preenchido")
 	private String endereco;
-	
+
+	private Integer numero;
 
 	@Column(nullable = false)
 	@NotNull(message = "Campo bairro deve ser preenchido")
 	private String bairro;
 
-	private String referencia;
+	private String pontoReferencia;
 
 	@JoinColumn(name = "id_cidade")
 	@ManyToOne
@@ -56,25 +73,28 @@ public abstract class Pessoa implements Serializable {
 	@ManyToOne
 	private Estado estado;
 
-	@Column(nullable = false)	
+	@Column(nullable = false)
 	private String telefone;
-	
-	@Email
-	private String email1;
-	
-	private String email2;
-	
 
 	private Double latitude;
 
 	private Double longitude;
 
-	@Column(nullable = false)
-	private Boolean status = true;
+	private String nomeResponsavel;
 
+	private String cpfResponsavel;
+
+	private String rgResponsavel;
+
+	@Email
+	private String email1;
+
+	private String email2;
+	
 	public Pessoa() {
 		super();
 	}
+	
 
 	public Long getId() {
 		return id;
@@ -83,9 +103,6 @@ public abstract class Pessoa implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	
-	
 
 	public String getTipoPessoa() {
 		return tipoPessoa;
@@ -103,12 +120,56 @@ public abstract class Pessoa implements Serializable {
 		this.dtCadastro = dtCadastro;
 	}
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public String getNomeRazaoSocial() {
+		return nomeRazaoSocial;
+	}
+
+
+	public void setNomeRazaoSocial(String nomeRazaoSocial) {
+		this.nomeRazaoSocial = nomeRazaoSocial;
+	}
+
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
 	public Sexo getSexo() {
 		return sexo;
 	}
 
 	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
+	}
+
+	
+
+	public LocalDateTime getDtNascimento() {
+		return dtNascimento;
+	}
+
+	public void setDtNascimento(LocalDateTime dtNascimento) {
+		this.dtNascimento = dtNascimento;
+	}
+
+	public String getCpfCnpj() {
+		return cpfCnpj;
+	}
+
+	public void setCpfCnpj(String cpfCnpj) {
+		this.cpfCnpj = cpfCnpj;
+	}
+
+	public String getRgInscrEstadual() {
+		return rgInscrEstadual;
+	}
+
+	public void setRgInscrEstadual(String rgInscrEstadual) {
+		this.rgInscrEstadual = rgInscrEstadual;
 	}
 
 	public String getCep() {
@@ -119,8 +180,6 @@ public abstract class Pessoa implements Serializable {
 		this.cep = cep;
 	}
 
-
-	
 	public String getEndereco() {
 		return endereco;
 	}
@@ -128,7 +187,14 @@ public abstract class Pessoa implements Serializable {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	
+
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
 
 	public String getBairro() {
 		return bairro;
@@ -138,12 +204,12 @@ public abstract class Pessoa implements Serializable {
 		this.bairro = bairro;
 	}
 
-	public String getReferencia() {
-		return referencia;
+	public String getPontoReferencia() {
+		return pontoReferencia;
 	}
 
-	public void setReferencia(String referencia) {
-		this.referencia = referencia;
+	public void setPontoReferencia(String pontoReferencia) {
+		this.pontoReferencia = pontoReferencia;
 	}
 
 	public Cidade getCidade() {
@@ -170,22 +236,6 @@ public abstract class Pessoa implements Serializable {
 		this.telefone = telefone;
 	}
 
-	public String getEmail1() {
-		return email1;
-	}
-
-	public void setEmail1(String email1) {
-		this.email1 = email1;
-	}
-
-	public String getEmail2() {
-		return email2;
-	}
-
-	public void setEmail2(String email2) {
-		this.email2 = email2;
-	}
-
 	public Double getLatitude() {
 		return latitude;
 	}
@@ -202,15 +252,46 @@ public abstract class Pessoa implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public Boolean getStatus() {
-		return status;
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
 	}
 
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
 	}
 
-	
+	public String getCpfResponsavel() {
+		return cpfResponsavel;
+	}
+
+	public void setCpfResponsavel(String cpfResponsavel) {
+		this.cpfResponsavel = cpfResponsavel;
+	}
+
+	public String getRgResponsavel() {
+		return rgResponsavel;
+	}
+
+	public void setRgResponsavel(String rgResponsavel) {
+		this.rgResponsavel = rgResponsavel;
+	}
+
+	public String getEmail1() {
+		return email1;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public String getEmail2() {
+		return email2;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
 	
 
 }

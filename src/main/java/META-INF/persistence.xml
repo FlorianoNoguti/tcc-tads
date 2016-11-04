@@ -12,7 +12,6 @@
 		<class>br.com.tads.modelo.Cidade</class>
 		<class>br.com.tads.modelo.Pessoa</class>
 		<class>br.com.tads.modelo.Funcionario</class>
-		<class>br.com.tads.modelo.ClienteFornecedor</class>
 		<class>br.com.tads.modelo.Contrato</class>
 
 	<properties>
