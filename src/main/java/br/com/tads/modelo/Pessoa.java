@@ -15,7 +15,7 @@ import org.hibernate.validator.constraints.Email;
 @Entity
 @Table(name = "pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Pessoa implements Serializable {
+public class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -94,7 +94,6 @@ public abstract class Pessoa implements Serializable {
 	public Pessoa() {
 		super();
 	}
-	
 
 	public Long getId() {
 		return id;
@@ -124,16 +123,6 @@ public abstract class Pessoa implements Serializable {
 		return status;
 	}
 
-	public String getNomeRazaoSocial() {
-		return nomeRazaoSocial;
-	}
-
-
-	public void setNomeRazaoSocial(String nomeRazaoSocial) {
-		this.nomeRazaoSocial = nomeRazaoSocial;
-	}
-
-
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
@@ -146,7 +135,13 @@ public abstract class Pessoa implements Serializable {
 		this.sexo = sexo;
 	}
 
-	
+	public String getNomeRazaoSocial() {
+		return nomeRazaoSocial;
+	}
+
+	public void setNomeRazaoSocial(String nomeRazaoSocial) {
+		this.nomeRazaoSocial = nomeRazaoSocial;
+	}
 
 	public LocalDateTime getDtNascimento() {
 		return dtNascimento;
@@ -291,7 +286,7 @@ public abstract class Pessoa implements Serializable {
 	public void setEmail2(String email2) {
 		this.email2 = email2;
 	}
-
 	
 
+	
 }
