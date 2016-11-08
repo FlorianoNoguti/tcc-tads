@@ -1,6 +1,7 @@
 package br.com.tads.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@Table(name = "contrato")
 public class Contrato implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,187 +23,140 @@ public class Contrato implements Serializable {
 
 	private TipoContrato tipoContrato;
 	
-	private String finalidadeViagem;
+	@Column(name="dataInicioContrato", nullable = false)
+	private LocalDate dataInicioContrato;
 	
-	private String localEmbarque;
+	@Column(name="dataTerminoContrato", nullable = false)
+	private LocalDate dataTerminoContrato;
 	
-	private String municipioPartida;
+	@JoinColumn(name = "id_passageiro")
+	@ManyToOne
+	private Pessoa passageiro;
 	
-	private String localDesembarque;
+	@JoinColumn(name = "id_responsavel")
+	@ManyToOne
+	private Pessoa responsavel;
 	
-	private String municipioDestino;
+	@Column(name = "destino",nullable=false)
+	private Destino destino;
 	
-	private String roteiroViagem;
+	@Column(name = "funcionario", nullable=false)
+	private Funcionario funcionario;
 	
-	private Date dataInicioContrato;
+	@Column(name="veiculo", nullable = false)
+	private Veiculo veiculo;
 	
-	private Date dataTerminoContrato;
-	
-	private Date dataSaida;
-	
-	private Integer horaSaida;
-	private  Date dataRetorno;
-	private Integer horaRetorno;
-	private Double valorContrato;
-	private Double custoKmRodado;
-	private Double custoKmExcedente;
-	private Integer nrNotaFiscal;
-	private Date dtNotaFiscal;
+	@Column(name="valorTotal", nullable=false)
+	private Double valorTotal;
 	
 	
 	public Contrato() {
 		super();
 	}
 
+
 	public Long getId() {
 		return id;
 	}
 
-	
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 
 	public TipoContrato getTipoContrato() {
 		return tipoContrato;
 	}
 
+
 	public void setTipoContrato(TipoContrato tipoContrato) {
 		this.tipoContrato = tipoContrato;
 	}
 
-	public String getFinalidadeViagem() {
-		return finalidadeViagem;
-	}
 
-	public void setFinalidadeViagem(String finalidadeViagem) {
-		this.finalidadeViagem = finalidadeViagem;
-	}
-
-	public String getLocalEmbarque() {
-		return localEmbarque;
-	}
-
-	public void setLocalEmbarque(String localEmbarque) {
-		this.localEmbarque = localEmbarque;
-	}
-
-	public String getMunicipioPartida() {
-		return municipioPartida;
-	}
-
-	public void setMunicipioPartida(String municipioPartida) {
-		this.municipioPartida = municipioPartida;
-	}
-
-	public String getLocalDesembarque() {
-		return localDesembarque;
-	}
-
-	public void setLocalDesembarque(String localDesembarque) {
-		this.localDesembarque = localDesembarque;
-	}
-
-	public String getMunicipioDestino() {
-		return municipioDestino;
-	}
-
-	public void setMunicipioDestino(String municipioDestino) {
-		this.municipioDestino = municipioDestino;
-	}
-
-	public String getRoteiroViagem() {
-		return roteiroViagem;
-	}
-
-	public void setRoteiroViagem(String roteiroViagem) {
-		this.roteiroViagem = roteiroViagem;
-	}
-
-	public Date getDataInicioContrato() {
+	public LocalDate getDataInicioContrato() {
 		return dataInicioContrato;
 	}
 
-	public void setDataInicioContrato(Date dataInicioContrato) {
+
+	public void setDataInicioContrato(LocalDate dataInicioContrato) {
 		this.dataInicioContrato = dataInicioContrato;
 	}
 
-	public Date getDataTerminoContrato() {
+
+	public LocalDate getDataTerminoContrato() {
 		return dataTerminoContrato;
 	}
 
-	public void setDataTerminoContrato(Date dataTerminoContrato) {
+
+	public void setDataTerminoContrato(LocalDate dataTerminoContrato) {
 		this.dataTerminoContrato = dataTerminoContrato;
 	}
 
-	public Date getDataSaida() {
-		return dataSaida;
+
+	public Pessoa getPassageiro() {
+		return passageiro;
 	}
 
-	public void setDataSaida(Date dataSaida) {
-		this.dataSaida = dataSaida;
+
+	public void setPassageiro(Pessoa passageiro) {
+		this.passageiro = passageiro;
 	}
 
-	public Integer getHoraSaida() {
-		return horaSaida;
+
+	public Pessoa getResponsavel() {
+		return responsavel;
 	}
 
-	public void setHoraSaida(Integer horaSaida) {
-		this.horaSaida = horaSaida;
+
+	public void setResponsavel(Pessoa responsavel) {
+		this.responsavel = responsavel;
 	}
 
-	public Date getDataRetorno() {
-		return dataRetorno;
+
+	public Destino getDestino() {
+		return destino;
 	}
 
-	public void setDataRetorno(Date dataRetorno) {
-		this.dataRetorno = dataRetorno;
+
+	public void setDestino(Destino destino) {
+		this.destino = destino;
 	}
 
-	public Integer getHoraRetorno() {
-		return horaRetorno;
+
+	public Funcionario getFuncionario() {
+		return funcionario;
 	}
 
-	public void setHoraRetorno(Integer horaRetorno) {
-		this.horaRetorno = horaRetorno;
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
 	}
 
-	public Double getValorContrato() {
-		return valorContrato;
+
+	public Veiculo getVeiculo() {
+		return veiculo;
 	}
 
-	public void setValorContrato(Double valorContrato) {
-		this.valorContrato = valorContrato;
+
+	public void setVeiculo(Veiculo veiculo) {
+		this.veiculo = veiculo;
 	}
 
-	public Double getCustoKmRodado() {
-		return custoKmRodado;
+
+	public Double getValorTotal() {
+		return valorTotal;
 	}
 
-	public void setCustoKmRodado(Double custoKmRodado) {
-		this.custoKmRodado = custoKmRodado;
-	}
 
-	public Double getCustoKmExcedente() {
-		return custoKmExcedente;
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
 	}
+	
+	
+	
 
-	public void setCustoKmExcedente(Double custoKmExcedente) {
-		this.custoKmExcedente = custoKmExcedente;
-	}
-
-	public Integer getNrNotaFiscal() {
-		return nrNotaFiscal;
-	}
-
-	public void setNrNotaFiscal(Integer nrNotaFiscal) {
-		this.nrNotaFiscal = nrNotaFiscal;
-	}
-
-	public Date getDtNotaFiscal() {
-		return dtNotaFiscal;
-	}
-
-	public void setDtNotaFiscal(Date dtNotaFiscal) {
-		this.dtNotaFiscal = dtNotaFiscal;
-	}
 	
 	
    
