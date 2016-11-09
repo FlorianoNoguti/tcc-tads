@@ -28,7 +28,7 @@
 			<p:commandButton value="Incluir estado"
 				oncomplete="PF('dialogCadastroEstado').show();"
 				update=":formCadastroEstado"
-				actionListener="#{estadoBean.criarNovoObjetoEstado()}" />
+				actionListener="#{estadoBean.criarNovoObjetoEstado()}"/>
 			<br></br>
 
 			<p:dataTable value="#{estadoBean.estados}" var="estado"
@@ -104,7 +104,6 @@
 		</p:dialog>
 
 	</ui:define>
-
-</ui:composition>
+ </ui:composition>
 
 </html>
