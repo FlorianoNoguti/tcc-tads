@@ -6,7 +6,10 @@ import java.util.Date;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entity implementation class for Entity: Pessoa
@@ -23,46 +26,56 @@ public class Pessoa implements Serializable {
 	@Column(name = "id_pessoa")
 	private Long id;
 
-	@Column(name = "tipoPessoa")
-	private String tipoPessoa;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private TipoPessoa tipoPessoa;
 
+	@NotNull
+	@Column(name="dt_cadastro",nullable=false)
 	private LocalDateTime dtCadastro = LocalDateTime.now();
 
+	@Column(name="status")
 	private Boolean status = true;
 
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
 
+	@NotEmpty
 	@Column(name = "nome", nullable = false)
-	@NotNull(message = "Campo nome deve ser preenchido")
 	private String nomeRazaoSocial;
 
-	@Column(name = "dtNascimento", nullable = false)
-	@NotNull(message = "Campo data de nascimento deve ser preenchida")
+	@NotEmpty
+	@Past
+	@Column(name = "dt_nascimento", nullable = false)
 	private LocalDateTime dtNascimento;
 
+	@NotEmpty
 	@Column(name = "cpf_cnpj", nullable = false)
-	@NotNull(message = "Campo cpf/cnpj deve ser preenchido")
-	private String cpfCnpj;
+	private String cpfCnpj;	
 
+	@NotEmpty
 	@Column(name = "rg_inscrEstadual", nullable = false)
-	@NotNull(message = "Campo rg/inscrição estadul deve ser preenchido")
 	private String rgInscrEstadual;
 
-	@Column(nullable = false, name = "cep")
-	@NotNull(message = "Campo CEP deve ser preenchido")
+	@NotEmpty	
+	@Column(name = "cep",nullable=false)
 	private String cep;
 
-	@Column(nullable = false)
-	@NotNull(message = "Campo endereço deve ser preenchido")
+	@NotEmpty
+	@Column(name="endereco",nullable = false)
 	private String endereco;
 
+	@NotNull
+	@Column(name="numero",nullable=false)
 	private Integer numero;
 
-	@Column(nullable = false)
-	@NotNull(message = "Campo bairro deve ser preenchido")
+	@NotEmpty
+	@Column(name="bairro",nullable = false)
 	private String bairro;
 
+	
+	@Column(name="ponto_referencia")
 	private String pontoReferencia;
 
 	@JoinColumn(name = "id_cidade")
@@ -73,24 +86,32 @@ public class Pessoa implements Serializable {
 	@ManyToOne
 	private Estado estado;
 
-	@Column(nullable = false)
+	@NotEmpty
+	@Column(name="telefone",nullable = false)
 	private String telefone;
 
+	@NotNull
+	@Column(name="latitude_pessoa",nullable=false)
 	private Double latitude;
-
+	
+	@NotNull
+	@Column(name="longitude_pessoa",nullable=false)
 	private Double longitude;
 
+	@Column(name="nome_responsavel")
 	private String nomeResponsavel;
 
+	
+	@Column(name="cpf_responsavel")
 	private String cpfResponsavel;
 
+	@Column(name="rg_responsavel")
 	private String rgResponsavel;
 
 	@Email
+	@Column(name="email")
 	private String email1;
-
-	private String email2;
-	
+		
 	public Pessoa() {
 		super();
 	}
@@ -103,11 +124,13 @@ public class Pessoa implements Serializable {
 		this.id = id;
 	}
 
-	public String getTipoPessoa() {
+	
+
+	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
 	}
 
-	public void setTipoPessoa(String tipoPessoa) {
+	public void setTipoPessoa(TipoPessoa tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
 	}
 
@@ -279,14 +302,5 @@ public class Pessoa implements Serializable {
 		this.email1 = email1;
 	}
 
-	public String getEmail2() {
-		return email2;
-	}
-
-	public void setEmail2(String email2) {
-		this.email2 = email2;
-	}
-	
-
-	
+		
 }

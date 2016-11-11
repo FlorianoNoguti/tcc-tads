@@ -2,6 +2,9 @@ package br.com.tads.modelo;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entity implementation class for Entity: Veiculo
@@ -18,15 +21,45 @@ public class Veiculo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id_veiculo")
 	private Long id;
+	
+	@NotEmpty
+	@Column(name="modelo",nullable=false)
 	private String modelo;
+	
+	@NotEmpty
+	@Column(name="marca",nullable=false)
 	private String marca;
+	
+	@NotNull
+	@Column(name="quilometragem",nullable=false)
 	private Double quilometragem;
+	
+	@NotNull
+	@Column(name="ano_fabricacao",nullable=false)
 	private Integer ano;
+	
+	@NotNull
+	@Column(name="qtde_passageiros",nullable=false)
 	private Integer qtde_passageiros;
+	
+	@NotEmpty
+	@Column(name="renavam",nullable=false)
 	private String renavam;
-	private Boolean ipva;
-	private Boolean licenciamento;
-	private Boolean dpvat;
+	
+	@NotNull
+	@Column(name="ipva")
+	private Boolean ipva = false;
+	
+	@NotNull
+	@Column(name="licenciamento")
+	private Boolean licenciamento = false;
+	
+	@NotNull
+	@Column(name="seguro_dpvat")
+	private Boolean dpvat = false;
+	
+	@NotEmpty
+	@Column(name="placa_veiculo",nullable=false)
 	private String placa;
 	
 

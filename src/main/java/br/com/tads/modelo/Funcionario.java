@@ -1,11 +1,14 @@
 package br.com.tads.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import br.com.tads.modelo.Pessoa;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entity implementation class for Entity: Funcionario
@@ -18,37 +21,37 @@ public class Funcionario extends Pessoa implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	
+	@NotEmpty
+	@Column(name="funcao",nullable=false)
 	private String funcao;
 	
-	private Date dataAdmissao;
+	@NotNull
+	@Column(name="dt_admissao",nullable=false)
+	private LocalDateTime dataAdmissao;
 	
-	@Column(nullable=false,unique=true)
-	@NotNull(message="Campo de cnh deve ser preenchido")
+	@NotEmpty
+	@Column(name="cnh", nullable=false,unique=true)
 	private String cnh;
 	
-	@Column(nullable=false, length=2)
-	@NotNull(message="Campo de categoria de cnh deve ser preenchido")
+	@NotEmpty
+	@Column(name="categoria_cnh",nullable=false, length=2)
 	private String categoriaCnh;
 	
-	@Column(nullable=false)
-	@NotNull(message="Campo de validade de cnh deve ser preenchido")
-	private Date validadeCnh;
+	@NotNull
+	@Column(name="validade_cnh",nullable=false)	
+	private LocalDateTime validadeCnh;
 	
-	
+	@NotEmpty
+	@Column(name="carteira_saude",nullable=false)
 	private String carteiraSaude;
 	
-	private Date validadeCarteiraSaude;
+	@NotNull
+	@Column(name="validade_carteira_saude",nullable=false)
+	private LocalDateTime validadeCarteiraSaude;
 	
+	@NotEmpty
+	@Column(name="carteira_especial",nullable=false)
 	private String cursoEspecial;
-	
-	private Date validadeCursoEspecial;
-	
-	private Double salario;
-
-	public Funcionario() {
-		super();
-	}
 
 	public String getFuncao() {
 		return funcao;
@@ -58,11 +61,11 @@ public class Funcionario extends Pessoa implements Serializable {
 		this.funcao = funcao;
 	}
 
-	public Date getDataAdmissao() {
+	public LocalDateTime getDataAdmissao() {
 		return dataAdmissao;
 	}
 
-	public void setDataAdmissao(Date dataAdmissao) {
+	public void setDataAdmissao(LocalDateTime dataAdmissao) {
 		this.dataAdmissao = dataAdmissao;
 	}
 
@@ -82,11 +85,11 @@ public class Funcionario extends Pessoa implements Serializable {
 		this.categoriaCnh = categoriaCnh;
 	}
 
-	public Date getValidadeCnh() {
+	public LocalDateTime getValidadeCnh() {
 		return validadeCnh;
 	}
 
-	public void setValidadeCnh(Date validadeCnh) {
+	public void setValidadeCnh(LocalDateTime validadeCnh) {
 		this.validadeCnh = validadeCnh;
 	}
 
@@ -98,11 +101,11 @@ public class Funcionario extends Pessoa implements Serializable {
 		this.carteiraSaude = carteiraSaude;
 	}
 
-	public Date getValidadeCarteiraSaude() {
+	public LocalDateTime getValidadeCarteiraSaude() {
 		return validadeCarteiraSaude;
 	}
 
-	public void setValidadeCarteiraSaude(Date validadeCarteiraSaude) {
+	public void setValidadeCarteiraSaude(LocalDateTime validadeCarteiraSaude) {
 		this.validadeCarteiraSaude = validadeCarteiraSaude;
 	}
 
@@ -113,22 +116,6 @@ public class Funcionario extends Pessoa implements Serializable {
 	public void setCursoEspecial(String cursoEspecial) {
 		this.cursoEspecial = cursoEspecial;
 	}
-
-	public Date getValidadeCursoEspecial() {
-		return validadeCursoEspecial;
-	}
-
-	public void setValidadeCursoEspecial(Date validadeCursoEspecial) {
-		this.validadeCursoEspecial = validadeCursoEspecial;
-	}
-
-	public Double getSalario() {
-		return salario;
-	}
-
-	public void setSalario(Double salario) {
-		this.salario = salario;
-	}
 	
-   
+	
 }

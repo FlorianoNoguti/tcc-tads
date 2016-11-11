@@ -4,6 +4,8 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * Entity implementation class for Entity: Estado
  *
@@ -20,13 +22,12 @@ public class Estado implements Serializable {
 	@Column(name="id_estado")
 	private Long id;
 	
+	@NotEmpty
 	@Column(name="nome_estado", nullable=false ,unique=true)
-	@NotNull(message="Nome de estado não pode ser vazio")
 	private String nome;
 	
-	
+	@NotEmpty
 	@Column(name="sigla",length=2)
-	@NotNull(message="Sigla não pode ser vazia")
 	private String sigla;
 	
 

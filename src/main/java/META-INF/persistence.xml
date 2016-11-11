@@ -16,6 +16,8 @@
 		<class>br.com.tads.modelo.TipoDespesa</class>
 		<class>br.com.tads.modelo.Destino</class>
 		<class>br.com.tads.modelo.Despesa</class>
+		<class>br.com.tads.modelo.ContasPagar</class>
+		<class>br.com.tads.modelo.ContasReceber</class>
 
 	<properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/tcc_tads"/>
