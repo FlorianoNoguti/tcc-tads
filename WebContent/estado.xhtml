@@ -22,8 +22,6 @@
 
 
 		<h:form id="formTabelaEstados">
-		
-		
 
 			<p:commandButton value="Incluir estado"
 				oncomplete="PF('dialogCadastroEstado').show();"
@@ -35,6 +33,7 @@
 				style="margin-bottom:0" rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,30,50,100">
+				
 				<f:facet name="header">
 					<h:outputText value="Estados" />
 				</f:facet>
@@ -49,8 +48,8 @@
 				</p:column>
 
 				<p:column style="width:100px" headerText="Ações">
-
-					<p:commandButton title="Alterar" alt="Alterar" oncomplete="PF('dialogCadastroEstado').show()"
+					<p:commandButton title="Alterar"
+					 oncomplete="PF('dialogCadastroEstado').show()"  alt="Alterar"
 					 update=":formCadastroEstado"	icon="ui-icon-pencil">
 						<f:setPropertyActionListener value="#{estado}"
 							target="#{estadoBean.estado}" />

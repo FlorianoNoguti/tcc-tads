@@ -22,11 +22,11 @@ public class Veiculo implements Serializable {
 	@Column(name="id_veiculo")
 	private Long id;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name="modelo",nullable=false)
 	private String modelo;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name="marca",nullable=false)
 	private String marca;
 	
@@ -42,7 +42,7 @@ public class Veiculo implements Serializable {
 	@Column(name="qtde_passageiros",nullable=false)
 	private Integer qtde_passageiros;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name="renavam",nullable=false)
 	private String renavam;
 	

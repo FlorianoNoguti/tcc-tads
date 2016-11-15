@@ -1,6 +1,7 @@
 package br.com.tads.modelo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -30,9 +31,10 @@ public class Pessoa implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoPessoa tipoPessoa;
 
+	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Column(name="dt_cadastro",nullable=false)
-	private LocalDateTime dtCadastro = LocalDateTime.now();
+	private Date dtCadastro = new Date();
 
 	@Column(name="status")
 	private Boolean status = true;
@@ -48,7 +50,7 @@ public class Pessoa implements Serializable {
 	@NotEmpty
 	@Past
 	@Column(name = "dt_nascimento", nullable = false)
-	private LocalDateTime dtNascimento;
+	private LocalDate dtNascimento;
 
 	@NotEmpty
 	@Column(name = "cpf_cnpj", nullable = false)
@@ -134,11 +136,13 @@ public class Pessoa implements Serializable {
 		this.tipoPessoa = tipoPessoa;
 	}
 
-	public LocalDateTime getDtCadastro() {
+	
+
+	public Date getDtCadastro() {
 		return dtCadastro;
 	}
 
-	public void setDtCadastro(LocalDateTime dtCadastro) {
+	public void setDtCadastro(Date dtCadastro) {
 		this.dtCadastro = dtCadastro;
 	}
 
@@ -166,11 +170,11 @@ public class Pessoa implements Serializable {
 		this.nomeRazaoSocial = nomeRazaoSocial;
 	}
 
-	public LocalDateTime getDtNascimento() {
+	public LocalDate getDtNascimento() {
 		return dtNascimento;
 	}
 
-	public void setDtNascimento(LocalDateTime dtNascimento) {
+	public void setDtNascimento(LocalDate dtNascimento) {
 		this.dtNascimento = dtNascimento;
 	}
 

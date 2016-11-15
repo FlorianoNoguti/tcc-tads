@@ -1,7 +1,7 @@
 package br.com.tads.modelo;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+
 import java.util.Date;
 
 import javax.persistence.*;
@@ -23,11 +23,13 @@ public class Contrato implements Serializable {
 
 	private TipoContrato tipoContrato;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="dataInicioContrato", nullable = false)
-	private LocalDate dataInicioContrato;
+	private Date dataInicioContrato;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="dataTerminoContrato", nullable = false)
-	private LocalDate dataTerminoContrato;
+	private Date dataTerminoContrato;
 	
 	@JoinColumn(name = "id_passageiro")
 	@ManyToOne
@@ -75,22 +77,22 @@ public class Contrato implements Serializable {
 	}
 
 
-	public LocalDate getDataInicioContrato() {
+	public Date getDataInicioContrato() {
 		return dataInicioContrato;
 	}
 
 
-	public void setDataInicioContrato(LocalDate dataInicioContrato) {
+	public void setDataInicioContrato(Date dataInicioContrato) {
 		this.dataInicioContrato = dataInicioContrato;
 	}
 
 
-	public LocalDate getDataTerminoContrato() {
+	public Date getDataTerminoContrato() {
 		return dataTerminoContrato;
 	}
 
 
-	public void setDataTerminoContrato(LocalDate dataTerminoContrato) {
+	public void setDataTerminoContrato(Date dataTerminoContrato) {
 		this.dataTerminoContrato = dataTerminoContrato;
 	}
 

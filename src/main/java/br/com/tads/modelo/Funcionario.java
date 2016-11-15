@@ -1,8 +1,8 @@
 package br.com.tads.modelo;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
+
 import br.com.tads.modelo.Pessoa;
 
 import javax.persistence.*;
@@ -21,13 +21,18 @@ public class Funcionario extends Pessoa implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name="dt_registro")
+	private Date dtRegistro = new Date();
+	
 	@NotEmpty
 	@Column(name="funcao",nullable=false)
 	private String funcao;
 	
+	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Column(name="dt_admissao",nullable=false)
-	private LocalDateTime dataAdmissao;
+	private Date dataAdmissao;
 	
 	@NotEmpty
 	@Column(name="cnh", nullable=false,unique=true)
@@ -37,20 +42,22 @@ public class Funcionario extends Pessoa implements Serializable {
 	@Column(name="categoria_cnh",nullable=false, length=2)
 	private String categoriaCnh;
 	
+	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Column(name="validade_cnh",nullable=false)	
-	private LocalDateTime validadeCnh;
+	private Date validadeCnh;
 	
 	@NotEmpty
 	@Column(name="carteira_saude",nullable=false)
 	private String carteiraSaude;
 	
+	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Column(name="validade_carteira_saude",nullable=false)
-	private LocalDateTime validadeCarteiraSaude;
+	private Date validadeCarteiraSaude;
 	
-	@NotEmpty
-	@Column(name="carteira_especial",nullable=false)
+	
+	@Column(name="carteira_especial")
 	private String cursoEspecial;
 
 	public String getFuncao() {
@@ -61,11 +68,13 @@ public class Funcionario extends Pessoa implements Serializable {
 		this.funcao = funcao;
 	}
 
-	public LocalDateTime getDataAdmissao() {
+	
+
+	public Date getDataAdmissao() {
 		return dataAdmissao;
 	}
 
-	public void setDataAdmissao(LocalDateTime dataAdmissao) {
+	public void setDataAdmissao(Date dataAdmissao) {
 		this.dataAdmissao = dataAdmissao;
 	}
 
@@ -85,11 +94,11 @@ public class Funcionario extends Pessoa implements Serializable {
 		this.categoriaCnh = categoriaCnh;
 	}
 
-	public LocalDateTime getValidadeCnh() {
+	public Date getValidadeCnh() {
 		return validadeCnh;
 	}
 
-	public void setValidadeCnh(LocalDateTime validadeCnh) {
+	public void setValidadeCnh(Date validadeCnh) {
 		this.validadeCnh = validadeCnh;
 	}
 
@@ -101,11 +110,11 @@ public class Funcionario extends Pessoa implements Serializable {
 		this.carteiraSaude = carteiraSaude;
 	}
 
-	public LocalDateTime getValidadeCarteiraSaude() {
+	public Date getValidadeCarteiraSaude() {
 		return validadeCarteiraSaude;
 	}
 
-	public void setValidadeCarteiraSaude(LocalDateTime validadeCarteiraSaude) {
+	public void setValidadeCarteiraSaude(Date validadeCarteiraSaude) {
 		this.validadeCarteiraSaude = validadeCarteiraSaude;
 	}
 

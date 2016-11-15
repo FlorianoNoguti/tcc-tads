@@ -25,7 +25,7 @@
 			<p:commandButton value="Incluir cidade"
 				oncomplete="PF('dialogCadastroCidade').show();"
 				update=":formCadastroCidade"
-				actionListener="#{cidadeBean.criarNovoObjetoCidade()}"/>
+				actionListener="#{cidadeBean.criarNovoObjetoCidade()}" />
 			<br></br>
 
 			<p:dataTable value="#{cidadeBean.cidades}" var="cidade"
@@ -34,30 +34,31 @@
 				rowsPerPageTemplate="10,20,30,50,100">
 
 				<f:facet name="header">
-					<h:outputText value="Cidades"/>
+					<h:outputText value="Cidades" />
 				</f:facet>
-				<p:column headerText="Cidade" filterBy="#{cidade.nome}" sortBy="#{cidade.nome}"
-					filterMatchMode="contains">
-					<h:outputText value="#{cidade.nome}"/>
+				<p:column headerText="Cidade" filterBy="#{cidade.nome}"
+					sortBy="#{cidade.nome}" filterMatchMode="contains">
+					<h:outputText value="#{cidade.nome}" />
 				</p:column>
 
 				<p:column headerText="Estado" filterBy="#{cidade.estado.sigla}"
 					filterMatchMode="contains">
-					<h:outputText value="#{cidade.estado.sigla}"/>
+					<h:outputText value="#{cidade.estado.sigla}" />
 				</p:column>
 
 				<p:column style="width:100px" headerText="Ações">
-					<p:commandButton title="Alterar" oncomplete="PF('dialogCadastroCidade').show();" alt="Alterar" 
-					update=":formCadastroCidade" icon="ui-icon-pencil">
+					<p:commandButton title="Alterar"
+						oncomplete="PF('dialogCadastroCidade').show();" alt="Alterar"
+						update=":formCadastroCidade" icon="ui-icon-pencil">
 						<f:setPropertyActionListener value="#{cidade}"
-							target="#{cidadeBean.cidade}"/>
+							target="#{cidadeBean.cidade}" />
 					</p:commandButton>
 
 					<p:commandButton actionListener="#{cidadeBean.remover(cidade)}"
 						icon="ui-icon-trash" title="Inativar" update="@form"
 						alt="Inativar" oncomplete="remoteCidade()">
-						<p:confirm header="Confirmação"  message="Deseja inativar?"/>
-						
+						<p:confirm header="Confirmação" message="Deseja inativar?" />
+
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -65,45 +66,48 @@
 			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 				<p:commandButton value="Sim" update="@form" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-					
+
 				<p:commandButton value="Não" type="button"
-					styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
-			
+
 			<p:remoteCommand name="remoteCidade" update="@form"></p:remoteCommand>
 
-			</h:form>
+		</h:form>
 
-			<p:dialog header="Cadastro de Cidade" widgetVar="dialogCadastroCidade" width="600" height="200"
-				modal="true" appendTo="@(body)" resizable="false" id="cidade-dialog">
-				<h:form id="formCadastroCidade">
-					<h:panelGrid columns="2">
-						<p:outputLabel value="Nome da Cidade:"/>
-						
-						<p:inputText id="nomeCidade" value="#{cidadeBean.cidade.nome}"
-							required="true" requiredMessage="campo obrigatorio">
-							<f:validateLength minimum="4" />
-							<f:ajax event="blur" render="messageNome"/>
-						</p:inputText>
-						<p:message for="nomeCidade" id="messageNome"/>
-						<br></br>
-						<p:outputLabel value="Estado:"/>
-						
-						<p:selectOneMenu id="estado" value="#{cidadeBean.cidade.estado}"
-							converter="converterEstado" effect="fade" filter="true"
-							filterMarchMode="startsWish">
-							<f:selectItem itemLabel="Selecione o estado" />
-							<f:selectItems value="#{estadoBean.estados}" var="estado"
-								itemLabel="#{estado.nome}" itemValue="#{estado}"/>
-						</p:selectOneMenu>
-						<br></br>
-						<p:commandButton value="Salvar Dados"
-							action="#{cidadeBean.gravarCidade()}" 
-							oncomplete="PF('dialogCadastroCidade').hide()"
-							update=":formTabelaCidades"/>
-					</h:panelGrid>
-				</h:form>
-			</p:dialog>
+		<p:dialog header="Cadastro de Cidade" widgetVar="dialogCadastroCidade"
+			width="600" height="200" modal="true" appendTo="@(body)"
+			resizable="false" id="cidade-dialog">
+			<h:form id="formCadastroCidade">
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="Nome da Cidade:" />
+					<p:inputText  id="nomeCidade"
+						value="#{cidadeBean.cidade.nome}" required="true"
+						requiredMessage="campo obrigatorio">
+						<f:validateLength minimum="4" />
+						<f:ajax event="blur" render="messageNome" />
+					</p:inputText>
+					<p:message for="nomeCidade" id="messageNome" />
+					<br></br>
+
+					<p:outputLabel value="Estado:" />
+					<p:selectOneMenu id="estado" value="#{cidadeBean.cidade.estado}"
+						converter="converterEstado" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione o estado" />
+						<f:selectItems value="#{estadoBean.estados}" var="estado"
+							itemLabel="#{estado.nome}" itemValue="#{estado}" />
+					</p:selectOneMenu>
+					<br></br>
+					
+					<p:commandButton value="Salvar Dados"
+						action="#{cidadeBean.gravarCidade()}"
+						oncomplete="PF('dialogCadastroCidade').hide()"
+						update=":formTabelaCidades" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
 
 	</ui:define>
 
