@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="idDespesa" value="#{despesaBean.idDespesa}" />
+		<f:viewAction action="#{despesaBean.carregarDespesaPorId()}"
+			if="#{param.idDespesa != null}" />
+	</f:metadata>
+
+
+	<ui:define name="titulo">
+		<p:outputPanel>Cadastro de Despesa</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formTabelaDespesas">
+			<p:commandButton value="Incluir despesa"
+				oncomplete="PF('dialogCadastroDespesa').show();"
+				update=":formCadastrodespesa"
+				actionListener="#{despesaBean.criarNovoObjetoDespesa()}" />
+			<br></br>
+
+			<p:dataTable value="#{despesaBean.despesas}" var="despesa"
+				emptyMessage="Nenhuma despesa cadastrada." style="margin-bottom:0"
+				rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100">
+
+				<f:facet name="header">
+					<h:outputText value="despesas" />
+				</f:facet>
+
+				<p:column headerText="Data" filterBy="#{despesa.dataRegistro}"
+					filterMatchMode="contais">
+					<h:outputText value="#{despesa.dataRegistro}" />
+				</p:column>
+
+				<p:column headerText="Tipo de despesa"
+					filterBy="#{despesa.tipoDespesa.descricao}"
+					filterMatchMode="contais">
+					<h:outputText value="#{despesa.tipoDespesa.descricao}" />
+				</p:column>
+
+
+				<p:column headerText="Descrição" filterBy="#{despesa.descricao}"
+					filterMatchMode="contains">
+					<h:outputText value="#{despesa.descricao}" />
+				</p:column>
+
+				<p:column headerText="Valor Total" filterBy="#{despesa.valorTotal}"
+					filterMatchMode="contains">
+					<h:outputText value="#{despesa.valorTotal}" />
+				</p:column>
+
+				<p:column headerText="Placa Veículo"
+					filterBy="#{despesa.veiculo.placa}" filterMatchMode="contais">
+					<h:outputText value="#{despesa.veiculo.placa}" />
+				</p:column>
+
+
+				<p:column style="width:100px" headerText="Ações">
+					<p:commandButton title="Alterar"
+						oncomplete="PF('dialogCadastrodespesa').show();" alt="Alterar"
+						update=":formCadastrodespesa" icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{despesa}"
+							target="#{despesaBean.despesa}" />
+					</p:commandButton>
+
+					<p:commandButton actionListener="#{despesaBean.remover(despesa)}"
+						icon="ui-icon-trash" title="Inativar" update="@form"
+						alt="Inativar" oncomplete="remotedespesa()">
+						<p:confirm header="Confirmação" message="Deseja inativar?" />
+
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" update="@form" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<p:remoteCommand name="remotedespesa" update="@form"></p:remoteCommand>
+
+		</h:form>
+
+		<p:dialog header="Nova Despesa" widgetVar="dialogCadastroDespesa"
+			width="600" height="400" modal="false" appendTo="@(body)"
+			resizable="false" id="despesa-dialog">
+
+			<h:form id="formCadastrodespesa">
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="Data" for="data" />
+					<p:calendar id="data" size="10"
+						value="#{despesaBean.despesa.dataRegistro}" pattern="dd/MM/yyyy"
+						mask="99/99/9999" />
+
+					<p:outputLabel value="Tipo de Despesa" for="tipoDespesa" />
+					<p:selectOneMenu id="tipoDespesa"
+						value="#{despesaBean.despesa.tipoDespesa.descricao}"
+						converter="converterTipoDespesa" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione o tipo de despesa" />
+						<f:selectItems value="#{tipoDespesaBean.tiposDespesa}"
+							var="tipoDespesa" itemLabel="#{tipoDespesa.descricao}"
+							itemValue="#{tipoDespesa}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Veiculo" for="veiculo" />
+					<p:selectOneMenu id="veiculo"
+						value="#{despesaBean.despesa.veiculo.placa}"
+						converter="converterVeiculo" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione o veículo" />
+						<f:selectItems value="#{veiculoBean.veiculos}" var="veiculo"
+							itemLabel="#{veiculo.placa}" itemValue="#{veiculo}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Funcionário" for="funcionario" />
+					<p:selectOneMenu id="funcionario"
+						value="#{despesaBean.despesa.funcionario.nomeRazaoSocial}"
+						converter="converterFuncionario" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione o funcionário " />
+						<f:selectItems value="#{funcionarioBean.funcionarios}" var="funcionario"
+							itemLabel="#{funcionario.nomeRazaoSocial}" itemValue="#{funcionario}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Descrição despesa:" />
+					<p:inputText id="descricaoDespesa"
+						value="#{despesaBean.despesa.descricao}" />
+
+
+					<p:outputLabel value="Valor:" />
+					<p:inputText id="valorDespesa"
+						value="#{despesaBean.despesa.valorTotal}" required="true"
+						requiredMessage="campo obrigatorio">
+					</p:inputText>
+
+					<p:commandButton value="Salvar Dados"
+						action="#{despesaBean.gravardespesa()}"
+						oncomplete="PF('dialogCadastrodespesa').hide()"
+						update=":formTabelaDespesas" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

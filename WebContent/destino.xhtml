@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="idDestino" value="#{destinoBean.idDestino}" />
+		<f:viewAction action="#{destinoBean.carregarDestinoPelaId()}"
+			if="#{param.idDestino != null}" />
+	</f:metadata>
+
+	<ui:define name="titulo">
+		<p:outputPanel>Cadastro de Destino</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formTabelaDestinos">
+
+			<p:commandButton value="Incluir destino"
+				oncomplete="PF('dialogCadastroDestino').show();"
+				update=":formCadastroDestino"
+				actionListener="#{destinoBean.criarNovoObjetoDestino()}"/>
+			<br></br>
+
+			<p:dataTable value="#{destinoBean.destinos}" var="destino"
+				style="margin-bottom:0" rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100">
+
+				<f:facet name="header">
+					<h:outputText value="Destinos"/>
+				</f:facet>
+				<p:column headerText="Destino" filterBy="#{destino.descricao}" sortBy="#{destino.descricao}"
+					filterMatchMode="contains">
+					<h:outputText value="#{destino.descricao}"/>
+				</p:column>
+
+				<p:column headerText="Cidade" filterBy="#{cidade.nome}"
+					filterMatchMode="contains">
+					<h:outputText value="#{cidade.nome}"/>
+				</p:column>
+
+				<p:column style="width:100px" headerText="Ações">
+					<p:commandButton title="Alterar" oncomplete="PF('dialogCadastroDestino').show();" alt="Alterar" 
+					update=":formCadastroCidade" icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{destino}"
+							target="#{destinoBean.destino}"/>
+					</p:commandButton>
+
+					<p:commandButton actionListener="#{destinoBean.remover(destino)}"
+						icon="ui-icon-trash" title="Inativar" update="@form"
+						alt="Inativar" oncomplete="remoteDestino()">
+						<p:confirm header="Confirmação"  message="Deseja inativar?"/>
+						
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" update="@form" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+			</p:confirmDialog>
+			
+			<p:remoteCommand name="remoteDestino" update="@form"></p:remoteCommand>
+
+			</h:form>
+
+			<p:dialog header="Cadastro de Destino" widgetVar="dialogCadastroDestino" width="600" height="200"
+				modal="true" appendTo="@(body)" resizable="false" id="destino-dialog">
+				<h:form id="formCadastroDestino">
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Nome do Destino:"/>
+						
+						<p:inputText id="nomeDestino" value="#{destinoBean.destino.descricao}"
+							required="true" requiredMessage="campo obrigatorio">
+							<f:validateLength minimum="4" />
+							<f:ajax event="blur" render="messageDescricao"/>
+						</p:inputText>
+						<p:message for="nomeDestino" id="messageDescricao"/>
+
+						<p:outputLabel value="Cidade:"/>
+						
+						<p:selectOneMenu id="cidade" value="#{DestinoBean.cidade}"
+							converter="converterCidade" effect="fade" filter="true"
+							filterMarchMode="startsWish">
+							<f:selectItem itemLabel="Selecione a cidade" />
+							<f:selectItems value="#{cidadeBean.cidades}" var="cidade"
+								itemLabel="#{cidade.nome}" itemValue="#{cidade}"/>
+						</p:selectOneMenu>
+						<br></br>
+						
+						<p:outputLabel value="Latitude:"/>
+						
+						<p:inputText id="latitude" value="#{destinoBean.destino.latitude}"
+							required="true" requiredMessage="campo obrigatorio">
+							<f:ajax event="blur" render="messageLatitude"/>
+						</p:inputText>
+						<p:message for="latitude" id="messageLatitude"/>
+						<br></br>
+							
+						<p:outputLabel value="Longitude:"/>
+						
+						<p:inputText id="longitude" value="#{destinoBean.destino.longitude}"
+							required="true" requiredMessage="campo obrigatório">
+							<f:ajax event="blur" render="messageLongitude"/>
+						</p:inputText>
+						<p:message for="longitude" id="messageLongitude"/>
+						<br></br>						
+						
+						<p:commandButton value="Salvar Dados"
+							action="#{destinoBean.gravarDestino()}" 
+							oncomplete="PF('dialogCadastroDestino').hide()"
+							update=":formTabelaDestinos"/>
+					</h:panelGrid>
+				</h:form>
+			</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template.xhtml">
+
+
+	<ui:define name="titulo">
+		<p:outputPanel>Cadastro de Cliente/Fornecedor</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+
+
+
+		<h:form id="formTabelaClienteFornecedor">
+
+			<p:commandButton value="Incluir cadastro"
+				onclick="PF('dialogCadastroClienteFornecedor').show();"
+				update=":formCadastroClienteFornecedor"
+				actionListener="#{pessoaBean.criarNovoObjetoPessoa()}" />
+			<br></br>
+
+			<p:dataTable value="#{pessoaBean.pessoas}" var="pessoa" reflow="true"
+				emptyMessage="Nenhum cliente ou fornecedor cadastrado."
+				style="margin-bottom:0" rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100">
+
+				<f:facet name="header">
+					<h:outputText value="Clientes/Fornecedores" />
+				</f:facet>
+				<p:column headerText="Nome" filterBy="#{pessoa.nomeRazaoSocial}"
+					filterMatchMode="contains" sortBy="#{pessoa.nomeRazaoSocial}">
+					<h:outputText value="#{pessoa.nomeRazaoSocial}" />
+				</p:column>
+
+				<p:column headerText="Endereço" filterBy="#{pessoa.endereco}">
+					<h:outputText value="#{pessoa.endereco}" />
+				</p:column>
+
+				<p:column headerText="CPF" filterBy="#{pessoa.cpfCnpj}">
+					<h:outputText value="#{pessoa.cpfCnpj}" />
+				</p:column>
+
+				<p:column headerText="Cidade" filterBy="#{pessoa.cidade.nome}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pessoa.cidade.nome}" />
+				</p:column>
+
+				<p:column style="width:100px" headerText="Ações">
+					<p:commandButton title="Alterar"
+						oncomplete="PF('dialogCadastroClienteFornecedor').show();"
+						alt="Alterar" update=":formCadastroClienteFornecedor"
+						icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{pessoa}"
+							target="#{pessoaBean.pessoa}" />
+					</p:commandButton>
+
+					<p:commandButton actionListener="#{pessoaBean.remover(pessoa)}"
+						icon="ui-icon-trash" title="Inativar" update="@form"
+						alt="Inativar" oncomplete="remotepessoa()">
+						<p:confirm header="Confirmação" message="Deseja inativar?" />
+
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" update="@form" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<p:remoteCommand name="remotepessoa" update="@form"></p:remoteCommand>
+
+		</h:form>
+
+		<p:dialog header="Novo cadastro"
+			widgetVar="dialogCadastroClienteFornecedor" modal="true"
+			appendTo="@(body)" resizable="false" id="pessoa-dialog" closeOnEscape="true">
+
+			<h:form id="formCadastroClienteFornecedor">
+				<h:panelGrid columns="2" id="painel-dialog">
+
+					<p:outputLabel for="Tipo:" value="Tipo Pessoa*:" />
+					<p:selectOneMenu id="Tipo" value="#{pessoaBean.pessoa.tipoPessoa}"
+						style="width:125px">
+						<f:selectItem itemLabel="Selecione o tipo de pessoa" itemValue="" />
+						<f:selectItem itemLabel="Física" itemValue="F" />
+						<f:selectItem itemLabel="Jurídica" itemValue="J" />
+					</p:selectOneMenu>
+
+
+					<p:outputLabel value="Nome*:" for="nome" />
+					<p:inputText id="nome" value="#{pessoaBean.pessoa.nomeRazaoSocial}"
+						required="true" requiredMessage="campo obrigatorio" size="40"
+						maxlength="60"/>
+
+					<p:outputLabel value="Data de Nascimento*:" for="dtNasc" />
+					<p:calendar id="dtNasc" value="#{pessoaBean.pessoa.dtNascimento}"
+						required="true" requiredMessage="campo obrigatorio"						
+						pattern="dd/MM/yyyy" mask="99/99/9999" />					
+					
+					<p:outputLabel value="CPF/CNPJ*:" />
+					<p:inputMask id="pessoaCpfCnpj"
+						value="#{pessoaBean.pessoa.cpfCnpj}" required="true"
+						requiredMessage="campo obrigatorio" mask="999.999.999-99"/>
+						
+					<p:outputLabel value="Rg/Inscr.Estadual*:" />
+					<p:inputText id="pessoaRgInscrEst" required="true"
+						requiredMessage="campo obrigatorio"/>
+						
+					<p:outputLabel value="Telefone*:" />
+					<p:inputMask id="pessoaTelefone"
+						value="#{pessoaBean.pessoa.telefone}" mask="(99)9999-9999" />
+
+					<p:outputLabel value="CEP*:" />
+					<p:inputMask id="pessoaCep" value="#{pessoaBean.pessoa.cep}"
+						required="true" requiredMessage="campo obrigatorio"
+						mask="99999-999"/>
+						
+					<p:outputLabel value="Endereço*:" />
+					<p:inputText id="pessoaEndereco"
+						value="#{pessoaBean.pessoa.endereco}" required="true"
+						requiredMessage="campo obrigatorio"/>
+						
+					<p:outputLabel value="Bairro:" />
+					<p:inputText id="pessoaBairro" value="#{pessoaBean.pessoa.bairro}"
+						required="true" requiredMessage="campo obrigatorio"/>
+						
+					<p:outputLabel value="Cidade*:" />
+					<p:selectOneMenu id="cidade" value="#{pessoaBean.pessoa.cidade}"
+						converter="converterCidade" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione a cidade" />
+						<f:selectItems value="#{cidadeBean.cidades}" var="cidade"
+							itemLabel="#{cidade.nome}" itemValue="#{cidade}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel />
+
+					<p:commandButton value="Salvar Dados"
+						action="#{pessoaBean.gravarPessoa()}"
+						oncomplete="PF('dialogCadastroClienteFornecedor').hide()"
+						update=":formTabelaClienteFornecedor" />
+
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>

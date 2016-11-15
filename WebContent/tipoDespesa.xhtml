@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+ 
+<ui:composition template="template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="idTipoDespesa" value="#{tipoDespesaBean.idTipoDespesa}" />
+		<f:viewAction action="#{tipoDespesaBean.carregarTipoDespesaPelaId()}"
+			if="#{param.idTipoDespesa != null}" />
+	</f:metadata>
+
+	<ui:define name="titulo"> 
+		<p:outputPanel>Cadastro de Tipo de Despesa</p:outputPanel>
+	</ui:define> 
+
+	<ui:define name="conteudo"> 
+
+
+		<h:form id="formTabelaTiposDespesa">		
+
+			<p:commandButton value="Incluir tipo de despesa"
+				oncomplete="PF('dialogCadastroTipoDespesa').show();"
+				update=":formCadastroTipoDespesa"
+				actionListener="#{tipoDespesaBean.criarNovoObjetoTipoDespesa()}" />
+			<br></br>
+
+			<p:dataTable value="#{tipoDespesaBean.tiposDespesa}" var="tipoDespesa"
+				style="margin-bottom:0" rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100">
+				
+				<f:facet name="header">
+					<h:outputText value="Tipos de Despesa" />
+				</f:facet>
+				
+				<p:column headerText="Tipo de Despesa" filterBy="#{tipoDespesa.descricao}" sortBy="#{tipoDespesa.descricao}"
+					filterMatchMode="contains">
+					<h:outputText value="#{tipoDespesa.descricao}" />
+				</p:column>
+
+				<p:column style="width:100px" headerText="Ações">
+
+					<p:commandButton title="Alterar" alt="Alterar" oncomplete="PF('dialogCadastroTipoDespesa').show()"
+					 update=":formCadastroTipoDespesa"	icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{tipoDespesa}"
+							target="#{tipoDespesaBean.tpDespesa}" />
+					</p:commandButton>
+					
+					<p:commandButton actionListener="#{tipoDespesaBean.remover(tipoDespesa)}"
+						icon="ui-icon-trash" title="Inativar" update="@form"
+						alt="Inativar">
+						<p:confirm header="Confirmação" message="Deseja inativar?" />
+					</p:commandButton>				
+				</p:column>
+			</p:dataTable>
+
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" update="@form" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+		<p:dialog header="Cadastro de Tipo de Despesa" widgetVar="dialogCadastroTipoDespesa" width="350" height="130"
+			modal="true" appendTo="@(body)" resizable="false">
+			<h:form id="formCadastroTipoDespesa">
+				<h:panelGrid>
+					<p:outputLabel value="Tipo de Despesa:" for="nomeTipoDespesa"/>					
+					<p:inputText id="nomeTipoDespesa" value="#{tipoDespesaBean.tpDespesa.descricao}" 
+					required="true"	requiredMessage="campo obrigatorio">						
+						<f:ajax event="blur" render="messageNome"/>					
+					<p:message for="nomeTipoDespesa" id="messageNome"/>				
+					</p:inputText>
+					
+					<br></br>					
+					<p:commandButton value="Salvar Dados"
+						action="#{tipoDespesaBean.gravar()}" 
+						oncomplete="PF('dialogCadastroTipoDespesa').hide()"
+						update=":formTabelaTiposDespesa"/>					
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition> 
+
+</html>

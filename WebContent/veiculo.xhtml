@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="idVeiculo" value="#{veiculoBean.idVeiculo}" />
+		<f:viewAction action="#{veiculoBean.carregarVeiculoPorId()}"
+			if="#{param.idVeiculo != null}" />
+	</f:metadata>
+
+
+	<ui:define name="titulo">
+		<p:outputPanel>Cadastro de Veiculo</p:outputPanel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form id="formTabelaVeiculos">
+			<p:commandButton value="Incluir veiculo"
+				oncomplete="PF('dialogCadastroVeiculo').show();"
+				update=":formCadastroVeiculo"
+				actionListener="#{veiculoBean.criarNovoObjetoVeiculo()}" />
+			<br></br>
+
+			<p:dataTable value="#{veiculoBean.veiculos}" var="veiculo"
+				emptyMessage="Nenhum veículo cadastrado." style="margin-bottom:0"
+				rows="20" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="10,20,30,50,100">
+
+				<f:facet name="header">
+					<h:outputText value="Veiculos" />
+				</f:facet>
+				<p:column headerText="Placa" filterBy="#{veiculo.placa}"
+					filterMatchMode="contains">
+					<h:outputText value="#{veiculo.placa}" />
+				</p:column>
+
+				<p:column headerText="Marca Veiculo" filterBy="#{veiculo.marca}"
+					filterMatchMode="contains">
+					<h:outputText value="#{veiculo.marca}" />
+				</p:column>
+
+				<p:column headerText="Modelo Veiculo" filterBy="#{veiculo.modelo}"
+					filterMatchMode="contains">
+					<h:outputText value="#{veiculo.modelo}" />
+				</p:column>
+
+
+
+				<p:column style="width:100px" headerText="Ações">
+					<p:commandButton title="Alterar"
+						oncomplete="PF('dialogCadastroVeiculo').show()" alt="Alterar"
+						update=":formCadastroVeiculo" icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{veiculo}"
+							target="#{veiculoBean.veiculo}" />
+					</p:commandButton>
+
+					<p:commandButton actionListener="#{veiculoBean.remover(veiculo)}"
+						icon="ui-icon-trash" title="Inativar" update="@form"
+						alt="Inativar" oncomplete="remoteVeiculo()">
+						<p:confirm header="Confirmação" message="Deseja inativar?" />
+
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" update="@form" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+			<p:remoteCommand name="remoteVeiculo" update="@form"></p:remoteCommand>
+
+		</h:form>
+
+		<p:dialog header="Novo veículo" widgetVar="dialogCadastroVeiculo"
+			width="600" height="400" modal="false" appendTo="@(body)"
+			resizable="false" id="veiculo-dialog">
+
+			<h:form id="formCadastroVeiculo">
+				<h:panelGrid columns="2">
+
+					<p:outputLabel value="Placa do veículo:" />
+					<p:inputText id="placaVeiculo" value="#{veiculoBean.veiculo.placa}"
+						required="true" requiredMessage="campo obrigatorio">
+						<f:validateLength minimum="7" />
+						<f:ajax event="blur" render="messagePlaca" />
+					</p:inputText>
+					<p:message for="placaVeiculo" id="messagePlaca" />
+					<br></br>
+
+					<p:outputLabel value="Marca do veículo:" />
+					<p:inputText id="marcaVeiculo" value="#{veiculoBean.veiculo.marca}"
+						required="true" requiredMessage="campo obrigatorio">
+						<f:ajax event="blur" render="messageMarca" />
+					</p:inputText>
+					<p:message for="marcaVeiculo" id="messageMarca" />
+					<br></br>
+
+					<p:outputLabel value="Modelo do veículo:" />
+					<p:inputText id="modeloVeiculo"
+						value="#{veiculoBean.veiculo.modelo}" required="true"
+						requiredMessage="campo obrigatorio">
+						<f:ajax event="blur" render="messageModelo" />
+					</p:inputText>
+					<p:message for="modeloVeiculo" id="messageModelo" />
+					<br></br>
+
+					<p:outputLabel value="Renavam do veículo:" />
+					<p:inputText id="renavamVeiculo"
+						value="#{veiculoBean.veiculo.renavam}" required="true"
+						requiredMessage="campo obrigatorio">
+						<f:ajax event="blur" render="messageRenavam" />
+					</p:inputText>
+					<p:message for="renavamVeiculo" id="messageRenavam" />
+					<br></br>
+
+					<p:outputLabel value="Quantidade passageiros:" />
+					<p:inputText id="qtdePassageirosVeiculo"
+						value="#{veiculoBean.veiculo.qtde_passageiros}" required="true"
+						requiredMessage="campo obrigatorio">
+						<f:ajax event="blur" render="messagePassageiros" />
+					</p:inputText>
+					<p:message for="qtdePassageirosVeiculo" id="messagePassageiros" />
+					<br></br>
+
+					<p:outputLabel value="Quilometragem do veículo:" />
+					<p:inputText id="quilometragemVeiculo"
+						value="#{veiculoBean.veiculo.quilometragem}" required="true"
+						requiredMessage="campo obrigatorio">
+						<f:ajax event="blur" render="messageQuilometragem" />
+					</p:inputText>
+					<p:message for="quilometragemVeiculo" id="messageQuilometragem" />
+					<br></br>
+					
+					<p:outputLabel value="Ano de fabricação:" />
+					<p:inputText id="anoVeiculo"
+						value="#{veiculoBean.veiculo.ano}" required="true"
+						requiredMessage="campo obrigatorio">
+						<f:ajax event="blur" render="messageAno" />
+					</p:inputText>
+					<p:message for="anoVeiculo" id="messageAno" />
+					<br></br>
+
+					
+
+					<p:commandButton value="Salvar Dados"
+						action="#{veiculoBean.gravarVeiculo()}"
+						oncomplete="PF('dialogCadastroVeiculo').hide()"
+						update=":formTabelaVeiculos" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
+
+</html>
