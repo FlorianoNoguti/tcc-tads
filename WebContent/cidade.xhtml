@@ -22,6 +22,8 @@
 
 		<h:form id="formTabelaCidades">
 
+			<p:growl id="growl" showDetail="true" sticky="true" />
+
 			<p:commandButton value="Incluir cidade"
 				oncomplete="PF('dialogCadastroCidade').show();"
 				update=":formCadastroCidade"
@@ -29,13 +31,15 @@
 			<br></br>
 
 			<p:dataTable value="#{cidadeBean.cidades}" var="cidade"
-				style="margin-bottom:0" rows="20" paginator="true"
+				emptyMessage="Nenhuma cidade cadastrada" style="margin-bottom:0"
+				rows="20" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,30,50,100">
 
 				<f:facet name="header">
 					<h:outputText value="Cidades" />
 				</f:facet>
+
 				<p:column headerText="Cidade" filterBy="#{cidade.nome}"
 					sortBy="#{cidade.nome}" filterMatchMode="contains">
 					<h:outputText value="#{cidade.nome}" />
@@ -56,9 +60,8 @@
 
 					<p:commandButton actionListener="#{cidadeBean.remover(cidade)}"
 						icon="ui-icon-trash" title="Inativar" update="@form"
-						alt="Inativar" oncomplete="remoteCidade()">
+						alt="Inativar">
 						<p:confirm header="Confirmação" message="Deseja inativar?" />
-
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -71,20 +74,18 @@
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 
-			<p:remoteCommand name="remoteCidade" update="@form"></p:remoteCommand>
-
 		</h:form>
 
 		<p:dialog header="Cadastro de Cidade" widgetVar="dialogCadastroCidade"
-			width="600" height="200" modal="true" appendTo="@(body)"
-			resizable="false" id="cidade-dialog">
+			modal="true" appendTo="@(body)" resizable="false" id="cidade-dialog"
+			closeEscape="true">
+			
 			<h:form id="formCadastroCidade">
 				<h:panelGrid columns="2">
 
 					<p:outputLabel value="Nome da Cidade:" />
-					<p:inputText  id="nomeCidade"
-						value="#{cidadeBean.cidade.nome}" required="true"
-						requiredMessage="campo obrigatorio">
+					<p:inputText id="nomeCidade" value="#{cidadeBean.cidade.nome}"
+						required="true" requiredMessage="campo obrigatorio">
 						<f:validateLength minimum="4" />
 						<f:ajax event="blur" render="messageNome" />
 					</p:inputText>
@@ -100,7 +101,7 @@
 							itemLabel="#{estado.nome}" itemValue="#{estado}" />
 					</p:selectOneMenu>
 					<br></br>
-					
+
 					<p:commandButton value="Salvar Dados"
 						action="#{cidadeBean.gravarCidade()}"
 						oncomplete="PF('dialogCadastroCidade').hide()"

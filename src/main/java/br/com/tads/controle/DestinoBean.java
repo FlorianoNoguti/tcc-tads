@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import br.com.tads.dao.DAO;
+import br.com.tads.modelo.Cidade;
 import br.com.tads.modelo.Destino;
 import br.com.tads.modelo.Estado;
 
@@ -20,6 +21,10 @@ public class DestinoBean implements Serializable{
 	private Destino destino = new Destino();	
 	private Long idDestino;	
 	private List<Destino> destinos;
+	
+	public DestinoBean(){
+		buscarDestinos();
+	}
 	
 	public void carregarDestinoPelaId(){
 		this.destino = new DAO<Destino>(Destino.class).buscaPorId(idDestino);
@@ -41,7 +46,7 @@ public class DestinoBean implements Serializable{
 		return "Destino?faces-redirect=true";
 		}
 	
-	public void remover(){
+	public void remover(Destino destino){
 		System.out.println("Removendo tipo de despesa" + destino.getDescricao());
 		new DAO<Destino>(Destino.class).remove(destino);		
 		
@@ -56,6 +61,14 @@ public class DestinoBean implements Serializable{
 		return destinos;
 		
 		}
+	
+	private void buscarDestinos() {
+		DAO<Destino> dao = new DAO<Destino>(Destino.class);
+		if (this.destinos == null) {
+			this.destinos = dao.listaTodos();
+		}
+	}
+
 	
 	public void criarNovoObjetoDestino() {
         destino = new Destino();

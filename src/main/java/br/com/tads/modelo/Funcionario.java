@@ -59,7 +59,16 @@ public class Funcionario extends Pessoa implements Serializable {
 	
 	@Column(name="carteira_especial")
 	private String cursoEspecial;
-
+	
+	public Funcionario(){
+		super();
+	}
+	
+	public Funcionario(String nomeRazaoSocial,String cpfCnpj,String rgInscrEstadual,String telefone){
+		super(nomeRazaoSocial,cpfCnpj,rgInscrEstadual,telefone);
+		
+	}
+	
 	public String getFuncao() {
 		return funcao;
 	}

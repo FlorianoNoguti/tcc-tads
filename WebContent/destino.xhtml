@@ -41,14 +41,14 @@
 					<h:outputText value="#{destino.descricao}"/>
 				</p:column>
 
-				<p:column headerText="Cidade" filterBy="#{cidade.nome}"
+				<p:column headerText="Cidade" filterBy="#{destino.cidade.nome}"
 					filterMatchMode="contains">
-					<h:outputText value="#{cidade.nome}"/>
+					<h:outputText value="#{destino.cidade.nome}"/>
 				</p:column>
 
 				<p:column style="width:100px" headerText="Ações">
 					<p:commandButton title="Alterar" oncomplete="PF('dialogCadastroDestino').show();" alt="Alterar" 
-					update=":formCadastroCidade" icon="ui-icon-pencil">
+					update=":formCadastroDestino" icon="ui-icon-pencil">
 						<f:setPropertyActionListener value="#{destino}"
 							target="#{destinoBean.destino}"/>
 					</p:commandButton>
@@ -74,29 +74,31 @@
 
 			</h:form>
 
-			<p:dialog header="Cadastro de Destino" widgetVar="dialogCadastroDestino" width="600" height="200"
+			<p:dialog header="Cadastro de Destino" widgetVar="dialogCadastroDestino" 
 				modal="true" appendTo="@(body)" resizable="false" id="destino-dialog">
+				
 				<h:form id="formCadastroDestino">
 					<h:panelGrid columns="2">
 						<p:outputLabel value="Nome do Destino:"/>
 						
 						<p:inputText id="nomeDestino" value="#{destinoBean.destino.descricao}"
-							required="true" requiredMessage="campo obrigatorio">
+							required="true" requiredMessage="campo obrigatorio" size="50" maxlength="80">
 							<f:validateLength minimum="4" />
 							<f:ajax event="blur" render="messageDescricao"/>
 						</p:inputText>
 						<p:message for="nomeDestino" id="messageDescricao"/>
+						<br></br>
 
 						<p:outputLabel value="Cidade:"/>
 						
-						<p:selectOneMenu id="cidade" value="#{DestinoBean.cidade}"
+						<p:selectOneMenu id="cidade" value="#{destinoBean.destino.cidade}"
 							converter="converterCidade" effect="fade" filter="true"
 							filterMarchMode="startsWish">
 							<f:selectItem itemLabel="Selecione a cidade" />
 							<f:selectItems value="#{cidadeBean.cidades}" var="cidade"
 								itemLabel="#{cidade.nome}" itemValue="#{cidade}"/>
 						</p:selectOneMenu>
-						<br></br>
+					
 						
 						<p:outputLabel value="Latitude:"/>
 						
@@ -114,12 +116,14 @@
 							<f:ajax event="blur" render="messageLongitude"/>
 						</p:inputText>
 						<p:message for="longitude" id="messageLongitude"/>
-						<br></br>						
+						<br></br>	
+						
+						<p:outputLabel/>					
 						
 						<p:commandButton value="Salvar Dados"
-							action="#{destinoBean.gravarDestino()}" 
+							action="#{destinoBean.gravar()}" 
 							oncomplete="PF('dialogCadastroDestino').hide()"
-							update=":formTabelaDestinos"/>
+							update=":formTabelaDestinos" />
 					</h:panelGrid>
 				</h:form>
 			</p:dialog>

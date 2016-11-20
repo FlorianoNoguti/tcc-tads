@@ -1,8 +1,6 @@
 package br.com.tads.modelo;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -27,12 +25,11 @@ public class Pessoa implements Serializable {
 	@Column(name = "id_pessoa")
 	private Long id;
 
-	@NotNull
+	
 	@Enumerated(EnumType.STRING)
 	private TipoPessoa tipoPessoa;
 
 	@Temporal(TemporalType.DATE)
-	@NotNull
 	@Column(name="dt_cadastro",nullable=false)
 	private Date dtCadastro = new Date();
 
@@ -47,10 +44,11 @@ public class Pessoa implements Serializable {
 	@Column(name = "nome", nullable = false)
 	private String nomeRazaoSocial;
 
-	@NotEmpty
+	@NotNull
 	@Past
+	@Temporal(TemporalType.DATE)
 	@Column(name = "dt_nascimento", nullable = false)
-	private LocalDate dtNascimento;
+	private Date dtNascimento;
 
 	@NotEmpty
 	@Column(name = "cpf_cnpj", nullable = false)
@@ -92,12 +90,12 @@ public class Pessoa implements Serializable {
 	@Column(name="telefone",nullable = false)
 	private String telefone;
 
-	@NotNull
-	@Column(name="latitude_pessoa",nullable=false)
+	
+	@Column(name="latitude_pessoa")
 	private Double latitude;
 	
-	@NotNull
-	@Column(name="longitude_pessoa",nullable=false)
+	
+	@Column(name="longitude_pessoa")
 	private Double longitude;
 
 	@Column(name="nome_responsavel")
@@ -112,12 +110,19 @@ public class Pessoa implements Serializable {
 
 	@Email
 	@Column(name="email")
-	private String email1;
+	private String email;
 		
 	public Pessoa() {
 		super();
 	}
 
+	public Pessoa(String nomeRazaoSocial,String cpfCnpj,String rgInscrEstadual,String telefone){
+		this.nomeRazaoSocial = nomeRazaoSocial;
+		this.cpfCnpj = cpfCnpj;
+		this.rgInscrEstadual = rgInscrEstadual;
+		this.telefone = telefone;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -170,11 +175,11 @@ public class Pessoa implements Serializable {
 		this.nomeRazaoSocial = nomeRazaoSocial;
 	}
 
-	public LocalDate getDtNascimento() {
+	public Date getDtNascimento() {
 		return dtNascimento;
 	}
 
-	public void setDtNascimento(LocalDate dtNascimento) {
+	public void setDtNascimento(Date dtNascimento) {
 		this.dtNascimento = dtNascimento;
 	}
 
@@ -299,11 +304,11 @@ public class Pessoa implements Serializable {
 	}
 
 	public String getEmail1() {
-		return email1;
+		return email;
 	}
 
 	public void setEmail1(String email1) {
-		this.email1 = email1;
+		this.email = email1;
 	}
 
 		

@@ -18,13 +18,16 @@
 	<ui:define name="titulo">
 		<p:outputPanel>Cadastro de Despesa</p:outputPanel>
 	</ui:define>
+	
+	<p:messages autoUpdate="true" />
 
 	<ui:define name="conteudo">
 
 		<h:form id="formTabelaDespesas">
+		
 			<p:commandButton value="Incluir despesa"
 				oncomplete="PF('dialogCadastroDespesa').show();"
-				update=":formCadastrodespesa"
+				update=":formCadastroDespesa"
 				actionListener="#{despesaBean.criarNovoObjetoDespesa()}" />
 			<br></br>
 
@@ -49,7 +52,6 @@
 					<h:outputText value="#{despesa.tipoDespesa.descricao}" />
 				</p:column>
 
-
 				<p:column headerText="Descrição" filterBy="#{despesa.descricao}"
 					filterMatchMode="contains">
 					<h:outputText value="#{despesa.descricao}" />
@@ -69,14 +71,14 @@
 				<p:column style="width:100px" headerText="Ações">
 					<p:commandButton title="Alterar"
 						oncomplete="PF('dialogCadastrodespesa').show();" alt="Alterar"
-						update=":formCadastrodespesa" icon="ui-icon-pencil">
+						update=":formCadastroDespesa" icon="ui-icon-pencil">
 						<f:setPropertyActionListener value="#{despesa}"
 							target="#{despesaBean.despesa}" />
 					</p:commandButton>
 
 					<p:commandButton actionListener="#{despesaBean.remover(despesa)}"
 						icon="ui-icon-trash" title="Inativar" update="@form"
-						alt="Inativar" oncomplete="remotedespesa()">
+						alt="Inativar">
 						<p:confirm header="Confirmação" message="Deseja inativar?" />
 
 					</p:commandButton>
@@ -91,21 +93,20 @@
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 
-			<p:remoteCommand name="remotedespesa" update="@form"></p:remoteCommand>
+			
 
 		</h:form>
 
-		<p:dialog header="Nova Despesa" widgetVar="dialogCadastroDespesa"
-			width="600" height="400" modal="false" appendTo="@(body)"
-			resizable="false" id="despesa-dialog">
+		<p:dialog header="Nova Despesa" 
+				  widgetVar="dialogCadastroDespesa"
+				  modal="true" appendTo="@(body)"	resizable="false" id="despesa-dialog">
 
-			<h:form id="formCadastrodespesa">
+			<h:form id="formCadastroDespesa">
 				<h:panelGrid columns="2">
 
 					<p:outputLabel value="Data" for="data" />
-					<p:calendar id="data" size="10"
-						value="#{despesaBean.despesa.dataRegistro}" pattern="dd/MM/yyyy"
-						mask="99/99/9999" />
+					<p:calendar id="data" size="10"	value="#{despesaBean.despesa.dataRegistro}" 
+								timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true"/>
 
 					<p:outputLabel value="Tipo de Despesa" for="tipoDespesa" />
 					<p:selectOneMenu id="tipoDespesa"
@@ -134,13 +135,14 @@
 						converter="converterFuncionario" effect="fade" filter="true"
 						filterMarchMode="startsWish">
 						<f:selectItem itemLabel="Selecione o funcionário " />
-						<f:selectItems value="#{funcionarioBean.funcionarios}" var="funcionario"
-							itemLabel="#{funcionario.nomeRazaoSocial}" itemValue="#{funcionario}" />
+						<f:selectItems value="#{funcionarioBean.funcionarios}"
+							var="funcionario" itemLabel="#{funcionario.nomeRazaoSocial}"
+							itemValue="#{funcionario}" />
 					</p:selectOneMenu>
 
 					<p:outputLabel value="Descrição despesa:" />
 					<p:inputText id="descricaoDespesa"
-						value="#{despesaBean.despesa.descricao}" />
+						value="#{despesaBean.despesa.descricao}" maxlength="100" size="50" />
 
 
 					<p:outputLabel value="Valor:" />
@@ -150,8 +152,8 @@
 					</p:inputText>
 
 					<p:commandButton value="Salvar Dados"
-						action="#{despesaBean.gravardespesa()}"
-						oncomplete="PF('dialogCadastrodespesa').hide()"
+						action="#{despesaBean.gravarDespesa()}"
+						oncomplete="PF('dialogCadastroDespesa').hide()"
 						update=":formTabelaDespesas" />
 				</h:panelGrid>
 			</h:form>

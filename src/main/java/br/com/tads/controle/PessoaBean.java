@@ -6,9 +6,10 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.tads.dao.DAO;
+import br.com.tads.modelo.Funcionario;
 import br.com.tads.modelo.Pessoa;
-
-
+import br.com.tads.modelo.Sexo;
+import br.com.tads.modelo.TipoPessoa;
 
 @ManagedBean
 @ViewScoped
@@ -17,13 +18,13 @@ public class PessoaBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Pessoa pessoa = new Pessoa();
 	private Long idPessoa;
-	private List<Pessoa>pessoas = new ArrayList<>();
+	private List<Pessoa> pessoas;
 
 	public PessoaBean() {
 		buscarPessoas();
 	}
 
-	public void carregarCidadePelaId() {
+	public void carregarPessoaPelaId() {
 		this.pessoa = new DAO<Pessoa>(Pessoa.class).buscaPorId(idPessoa);
 		this.pessoa.getId();
 	}
@@ -53,6 +54,10 @@ public class PessoaBean implements Serializable {
 	}
 
 	public List<Pessoa> getPessoas() {
+		DAO<Pessoa> dao = new DAO<Pessoa>(Pessoa.class);
+		if (this.pessoas == null) {
+			this.pessoas = dao.listaTodos();
+		}
 
 		return pessoas;
 
@@ -63,6 +68,14 @@ public class PessoaBean implements Serializable {
 		if (this.pessoas == null) {
 			this.pessoas = dao.listaTodos();
 		}
+	}
+
+	public TipoPessoa[] getTipos() {
+		return TipoPessoa.values();
+	}
+
+	public Sexo[] getSexos() {
+		return Sexo.values();
 	}
 
 	public void criarNovoObjetoPessoa() {

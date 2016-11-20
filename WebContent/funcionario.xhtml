@@ -17,8 +17,8 @@
 	<ui:define name="titulo">
 		<p:outputPanel>Cadastro de Funcionario</p:outputPanel>
 	</ui:define>
-	
-	<p:messages autoUpdate="true"/>
+
+	<p:messages autoUpdate="true" />
 
 	<ui:define name="conteudo">
 
@@ -41,6 +41,14 @@
 				<p:column headerText="Nome" filterBy="#{func.nomeRazaoSocial}"
 					sortBy="#{func.nomeRazaoSocial}" filterMatchMode="contains">
 					<h:outputText value="#{func.nomeRazaoSocial}" />
+				</p:column>
+
+				<f:facet name="header">
+					<h:outputText value="Telefone" />
+				</f:facet>
+				<p:column headerText="Telefone" filterBy="#{func.telefone}"
+					sortBy="#{func.telefone}" filterMatchMode="contains">
+					<h:outputText value="#{func.telefone}" />
 				</p:column>
 
 				<p:column style="width:100px" headerText="Ações">
@@ -72,16 +80,20 @@
 		</h:form>
 
 		<p:dialog header="Cadastro de Funcionario"
-			widgetVar="dialogCadastroFuncionario" width="600" height="380"
+			widgetVar="dialogCadastroFuncionario"
 			modal="true" appendTo="@(body)" resizable="false" id="cidade-dialog">
+			
 			<h:form id="formCadastroFunc">
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="4">
 
 					<p:outputLabel value="Nome*:" />
 					<p:inputText id="nomeFunc"
 						value="#{funcionarioBean.funcionario.nomeRazaoSocial}"
 						required="true" requiredMessage="campo obrigatorio" size="50"
 						maxlength="100" />
+						
+						<p:outputLabel/>
+						<br></br>
 
 
 					<p:outputLabel value="Sexo*:" />
@@ -92,6 +104,12 @@
 							itemLabel="#{sexo.descricao}" itemValue="#{descricao}" />
 					</p:selectOneMenu>
 
+					<p:outputLabel value="Data de Nascimento*:" for="data-nascimento"/>
+					<p:calendar id="data-nascimento" size="10"
+						value="#{funcionarioBean.funcionario.dtNascimento}"
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
+
+
 					<p:outputLabel value="Função*:" />
 					<p:inputText id="cargoFunc"
 						value="#{funcionarioBean.funcionario.funcao}" required="true"
@@ -101,18 +119,63 @@
 					<p:outputLabel value="Data de admissão*:" for="data-admissao" />
 					<p:calendar id="data-admissao" size="10"
 						value="#{funcionarioBean.funcionario.dataAdmissao}"
-						pattern="dd/MM/yyyy" mask="99/99/9999" />
-						
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
+
+					<p:outputLabel value="CPF*:" />
+					<p:inputText id="cpfFunc"
+						value="#{funcionarioBean.funcionario.cpfCnpj}" required="true"
+						requiredMessage="campo obrigatorio" />
+
+					<p:outputLabel value="RG*:" />
+					<p:inputText id="rgFunc"
+						value="#{funcionarioBean.funcionario.rgInscrEstadual}"
+						required="true" requiredMessage="campo obrigatorio" />
+
+					<p:outputLabel value="Cep*:" />
+					<p:inputText id="cepFunc"
+						value="#{funcionarioBean.funcionario.cep}" required="true"
+						requiredMessage="campo obrigatorio" />
+
+
+					<p:outputLabel value="Endereco*:" />
+					<p:inputText id="enderecoFunc"
+						value="#{funcionarioBean.funcionario.endereco}" required="true"
+						requiredMessage="campo obrigatorio" />
+
+
+					<p:outputLabel value="Número*:" />
+					<p:inputText id="numEnderecoFunc"
+						value="#{funcionarioBean.funcionario.numero}" required="true"
+						requiredMessage="campo obrigatorio" />
+
+
+					<p:outputLabel value="Bairro*:" />
+					<p:inputText id="bairroFunc"
+						value="#{funcionarioBean.funcionario.bairro}" required="true"
+						requiredMessage="campo obrigatorio" />
+
+
+					<p:outputLabel value="Telefone*:" />
+					<p:inputMask id="telefoneFunc"
+						value="#{funcionarioBean.funcionario.telefone}" required="true"
+						requiredMessage="campo obrigatorio" mask="(99)9999-9999" />
+
 
 					<p:outputLabel value="CNH*:" />
 					<p:inputText id="cnhFunc"
 						value="#{funcionarioBean.funcionario.cnh}" required="true"
 						requiredMessage="campo obrigatorio" />
 
+					<p:outputLabel value="Categoria CNH*:" />
+					<p:inputText id="categoriaCnhFunc"
+						value="#{funcionarioBean.funcionario.categoriaCnh}"
+						required="true" requiredMessage="campo obrigatorio" />
+
+
 					<p:outputLabel value="Validade CNH*:" for="validade-cnh" />
 					<p:calendar id="validade-cnh" size="10"
 						value="#{funcionarioBean.funcionario.validadeCnh}"
-						pattern="dd/MM/yyyy" mask="99/99/9999" />
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
 
 					<p:outputLabel value="Carteira de saúde:" />
 					<p:inputText id="saudeFunc"
@@ -123,12 +186,15 @@
 						for="validade-saude" />
 					<p:calendar id="validade-saude" size="10"
 						value="#{funcionarioBean.funcionario.validadeCarteiraSaude}"
-						pattern="dd/MM/yyyy" mask="99/99/9999" />
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
 
 					<p:outputLabel value="Curso Especial:" />
 					<p:inputText id="cursoEspecialFunc"
 						value="#{funcionarioBean.funcionario.cursoEspecial}"
 						required="true" requiredMessage="campo obrigatorio" />
+					<br></br>
+
+					<p:outputLabel />
 
 					<p:commandButton value="Salvar Dados"
 						action="#{funcionarioBean.gravarFuncionario()}"

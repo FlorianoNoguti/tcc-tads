@@ -3,12 +3,12 @@ package br.com.tads.controle;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-
+import javax.faces.context.FacesContext;
 import br.com.tads.dao.DAO;
 import br.com.tads.modelo.Cidade;
-import br.com.tads.modelo.Estado;
 
 @ManagedBean
 @ViewScoped
@@ -47,8 +47,9 @@ public class CidadeBean implements Serializable {
 	public void remover(Cidade cid) {
 		System.out.println("Removendo cidade " + cid.getNome());
 		new DAO<Cidade>(Cidade.class).remove(cid);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Cidade excluída com sucesso!"));
 		buscarCidades();
-
 	}
 
 	public List<Cidade> getCidades() {
@@ -66,6 +67,8 @@ public class CidadeBean implements Serializable {
 			this.cidades = dao.listaTodos();
 		}
 	}
+
+	
 
 	public void criarNovoObjetoCidade() {
 		cidade = new Cidade();

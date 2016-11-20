@@ -8,6 +8,11 @@
 
 <ui:composition template="template.xhtml">
 
+	<f:metadata>
+		<f:viewParam name="idPessoa" value="#{pessoaBean.idPessoa}" />
+		<f:viewAction action="#{pessoaBean.carregarPessoaPelaId()}"
+			if="#{param.idPessoa != null}" />
+	</f:metadata>
 
 	<ui:define name="titulo">
 		<p:outputPanel>Cadastro de Cliente/Fornecedor</p:outputPanel>
@@ -15,10 +20,9 @@
 
 	<ui:define name="conteudo">
 
-
-
-
 		<h:form id="formTabelaClienteFornecedor">
+
+			<p:growl id="growl" showDetail="true" sticky="true" />
 
 			<p:commandButton value="Incluir cadastro"
 				onclick="PF('dialogCadastroClienteFornecedor').show();"
@@ -26,7 +30,7 @@
 				actionListener="#{pessoaBean.criarNovoObjetoPessoa()}" />
 			<br></br>
 
-			<p:dataTable value="#{pessoaBean.pessoas}" var="pessoa" reflow="true"
+			<p:dataTable value="#{pessoaBean.pessoas}" var="pessoa"
 				emptyMessage="Nenhum cliente ou fornecedor cadastrado."
 				style="margin-bottom:0" rows="20" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -35,6 +39,7 @@
 				<f:facet name="header">
 					<h:outputText value="Clientes/Fornecedores" />
 				</f:facet>
+
 				<p:column headerText="Nome" filterBy="#{pessoa.nomeRazaoSocial}"
 					filterMatchMode="contains" sortBy="#{pessoa.nomeRazaoSocial}">
 					<h:outputText value="#{pessoa.nomeRazaoSocial}" />
@@ -64,9 +69,8 @@
 
 					<p:commandButton actionListener="#{pessoaBean.remover(pessoa)}"
 						icon="ui-icon-trash" title="Inativar" update="@form"
-						alt="Inativar" oncomplete="remotepessoa()">
+						alt="Inativar">
 						<p:confirm header="Confirmação" message="Deseja inativar?" />
-
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -79,63 +83,91 @@
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 
-			<p:remoteCommand name="remotepessoa" update="@form"></p:remoteCommand>
-
 		</h:form>
 
 		<p:dialog header="Novo cadastro"
 			widgetVar="dialogCadastroClienteFornecedor" modal="true"
-			appendTo="@(body)" resizable="false" id="pessoa-dialog" closeOnEscape="true">
+			appendTo="@(body)" resizable="false" id="pessoa-dialog"
+			closeOnEscape="true">
 
 			<h:form id="formCadastroClienteFornecedor">
-				<h:panelGrid columns="2" id="painel-dialog">
+				<h:panelGrid columns="4">
 
-					<p:outputLabel for="Tipo:" value="Tipo Pessoa*:" />
-					<p:selectOneMenu id="Tipo" value="#{pessoaBean.pessoa.tipoPessoa}"
-						style="width:125px">
-						<f:selectItem itemLabel="Selecione o tipo de pessoa" itemValue="" />
-						<f:selectItem itemLabel="Física" itemValue="F" />
-						<f:selectItem itemLabel="Jurídica" itemValue="J" />
+					<p:outputLabel value="Tipo Pessoa*:" />
+					<p:selectOneMenu id="tipoPessoa"
+						value="#{pessoaBean.pessoa.tipoPessoa}">
+						<f:selectItem itemLabel="Selecione o tipo" />
+						<f:selectItems value="#{pessoaBean.tipos}" var="tipoPessoa"
+							itemLabel="#{tipoPessoa.descricao}" itemValue="#{descricao}" />
 					</p:selectOneMenu>
 
 
 					<p:outputLabel value="Nome*:" for="nome" />
 					<p:inputText id="nome" value="#{pessoaBean.pessoa.nomeRazaoSocial}"
 						required="true" requiredMessage="campo obrigatorio" size="40"
-						maxlength="60"/>
+						maxlength="60" />
 
 					<p:outputLabel value="Data de Nascimento*:" for="dtNasc" />
 					<p:calendar id="dtNasc" value="#{pessoaBean.pessoa.dtNascimento}"
-						required="true" requiredMessage="campo obrigatorio"						
-						pattern="dd/MM/yyyy" mask="99/99/9999" />					
-					
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
+
+					<p:outputLabel value="Sexo*:" />
+					<p:selectOneMenu id="sexo"
+						value="#{pessoaBean.pessoa.sexo}">
+						<f:selectItem itemLabel="Selecione o sexo" />
+						<f:selectItems value="#{pessoaBean.sexos}" var="sexo"
+							itemLabel="#{sexo.descricao}" itemValue="#{descricao}" />
+					</p:selectOneMenu>
+
 					<p:outputLabel value="CPF/CNPJ*:" />
 					<p:inputMask id="pessoaCpfCnpj"
 						value="#{pessoaBean.pessoa.cpfCnpj}" required="true"
-						requiredMessage="campo obrigatorio" mask="999.999.999-99"/>
-						
+						requiredMessage="campo obrigatorio" mask="999.999.999-99" />
+
 					<p:outputLabel value="Rg/Inscr.Estadual*:" />
-					<p:inputText id="pessoaRgInscrEst" required="true"
-						requiredMessage="campo obrigatorio"/>
-						
+					<p:inputText id="pessoaRgInscrEst" value="#{pessoaBean.pessoa.rgInscrEstadual}" 
+						required="true" requiredMessage="campo obrigatorio" />						
+
 					<p:outputLabel value="Telefone*:" />
 					<p:inputMask id="pessoaTelefone"
 						value="#{pessoaBean.pessoa.telefone}" mask="(99)9999-9999" />
 
+					<p:outputLabel value="Email" />
+					<p:inputText id="pessoaEmail" value="#{pessoaBean.pessoa.email1}"
+						required="true" requiredMessage="campo obrigatorio" />
+
 					<p:outputLabel value="CEP*:" />
 					<p:inputMask id="pessoaCep" value="#{pessoaBean.pessoa.cep}"
 						required="true" requiredMessage="campo obrigatorio"
-						mask="99999-999"/>
-						
+						mask="99999-999" />
+
 					<p:outputLabel value="Endereço*:" />
 					<p:inputText id="pessoaEndereco"
 						value="#{pessoaBean.pessoa.endereco}" required="true"
-						requiredMessage="campo obrigatorio"/>
-						
+						requiredMessage="campo obrigatorio" />
+
+					<p:outputLabel value="Número:" />
+					<p:inputText id="pessoaNumero" value="#{pessoaBean.pessoa.numero}"
+						required="true" requiredMessage="campo obrigatorio" />
+
 					<p:outputLabel value="Bairro:" />
 					<p:inputText id="pessoaBairro" value="#{pessoaBean.pessoa.bairro}"
-						required="true" requiredMessage="campo obrigatorio"/>
-						
+						required="true" requiredMessage="campo obrigatorio" />
+
+					<p:outputLabel value="Ponto de referência:" />
+					<p:inputText id="pessoaPontoReferencia"
+						value="#{pessoaBean.pessoa.pontoReferencia}" />
+
+					<p:outputLabel value="Latitude:" />
+					<p:inputText id="pessoaLatitude"
+						value="#{pessoaBean.pessoa.latitude}" required="true"
+						requiredMessage="campo obrigatorio" />
+
+					<p:outputLabel value="Longitude:" />
+					<p:inputText id="pessoaLongitude"
+						value="#{pessoaBean.pessoa.longitude}" required="true"
+						requiredMessage="campo obrigatorio" />
+
 					<p:outputLabel value="Cidade*:" />
 					<p:selectOneMenu id="cidade" value="#{pessoaBean.pessoa.cidade}"
 						converter="converterCidade" effect="fade" filter="true"

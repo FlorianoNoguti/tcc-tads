@@ -5,8 +5,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.tads.dao.DAO;
-import br.com.tads.modelo.Cidade;
 import br.com.tads.modelo.Despesa;
+
 
 
 @ManagedBean
@@ -19,7 +19,7 @@ public class DespesaBean implements Serializable {
 	private List<Despesa> despesas;
 
 	public DespesaBean() {
-		buscardespesas();
+		buscarDespesas();
 	}
 
 	public void carregarDespesaPorId() {
@@ -27,9 +27,10 @@ public class DespesaBean implements Serializable {
 		this.despesa.getId();		
 	}
 
-	public String gravardespesa() {
-		System.out.println("Gravando despesa" + this.despesa.getDescricao());		
-		if(this.despesa.getId()==null){
+	public String gravarDespesa() {
+		System.out.println("Gravando despesa " + this.despesa.getDescricao());
+
+		if (this.despesa.getId() == null) {
 			new DAO<Despesa>(Despesa.class).adiciona(this.despesa);
 			System.out.println(this.despesa.getDescricao());
 		} else {
@@ -37,25 +38,29 @@ public class DespesaBean implements Serializable {
 		}
 
 		this.despesa = new Despesa();
-		buscardespesas();
+		buscarDespesas();
 
-		return "despesa?faces-redirect=true";
+		return "Funcionario?faces-redirect=true";
 	}
 
 	public void remover(Despesa desp) {
 		System.out.println("Removendo despesa " + desp.getDescricao());
 		new DAO<Despesa>(Despesa.class).remove(desp);
-		buscardespesas();
+		buscarDespesas();
 
 	}
 
 	public List<Despesa> getdespesas() {
+		DAO<Despesa> dao = new DAO<Despesa>(Despesa.class);
+		if (this.despesas == null) {
+			this.despesas = dao.listaTodos();
 
+		}		
 		return despesas;
 
 	}
 
-	private void buscardespesas() {
+	private void buscarDespesas() {
 		DAO<Despesa> dao = new DAO<Despesa>(Despesa.class);
 		if (this.despesas == null) {
 			this.despesas = dao.listaTodos();
@@ -75,6 +80,11 @@ public class DespesaBean implements Serializable {
 	}
 
 	public List<Despesa> getDespesas() {
+		DAO<Despesa> dao = new DAO<Despesa>(Despesa.class);
+		if (this.despesas == null) {
+			this.despesas = dao.listaTodos();
+		}
+		
 		return despesas;
 	}
 

@@ -27,7 +27,8 @@ public class Destino implements Serializable {
 	@Column(name="descricao",nullable=false, length=100)
 	private String descricao;
 	
-	@NotNull
+	@JoinColumn(name = "id_cidade")
+	@ManyToOne
 	private Cidade cidade;
 	
 	@NotNull

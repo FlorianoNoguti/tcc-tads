@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import br.com.tads.dao.DAO;
+import br.com.tads.modelo.Cidade;
 import br.com.tads.modelo.TipoDespesa;
 
 @ManagedBean
@@ -30,6 +32,7 @@ public class TipoDespesaBean implements Serializable{
 		if(this.tpDespesa.getId() == null) {
 			new DAO<TipoDespesa>(TipoDespesa.class).adiciona(this.tpDespesa);
 			System.out.println(this.tpDespesa.getDescricao());
+			FacesContext context = FacesContext.getCurrentInstance();
 		} else {
 			new DAO<TipoDespesa>(TipoDespesa.class).atualiza(this.tpDespesa);
 		}
@@ -39,11 +42,14 @@ public class TipoDespesaBean implements Serializable{
 		return "tipoDespesa?faces-redirect=true";
 		}
 	
-	public void remover(){
+	public void remover(TipoDespesa tpDespesa){
 		System.out.println("Removendo tipo de despesa" + tpDespesa.getDescricao());
 		new DAO<TipoDespesa>(TipoDespesa.class).remove(tpDespesa);		
-		
+		buscarTiposDespesa();
 		}
+	
+	
+	
 	
 	public List<TipoDespesa>getTiposDespesa(){
 		DAO<TipoDespesa> dao = new DAO<TipoDespesa>(TipoDespesa.class);
@@ -54,6 +60,13 @@ public class TipoDespesaBean implements Serializable{
 		return tiposDespesa;
 		
 		}
+	
+	private void buscarTiposDespesa() {
+		DAO<TipoDespesa> dao = new DAO<TipoDespesa>(TipoDespesa.class);
+		if (this.tiposDespesa == null) {
+			this.tiposDespesa = dao.listaTodos();
+		}
+	}
 	
 	public void criarNovoObjetoTipoDespesa() {
 	    tpDespesa = new TipoDespesa();

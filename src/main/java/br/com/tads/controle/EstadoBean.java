@@ -15,17 +15,11 @@ import br.com.tads.modelo.Estado;
 @ManagedBean
 @ViewScoped
 public class EstadoBean implements Serializable{
-
 	
 	private static final long serialVersionUID = 1L;
-
-	private Estado estado = new Estado();
-	
-	private Long idEstado;
-	
+	private Estado estado = new Estado();	
+	private Long idEstado;	
 	private List<Estado> estados;
-	
-
 	
 	
 	public void carregarEstadoPelaId() {
@@ -48,7 +42,7 @@ public class EstadoBean implements Serializable{
 		return "estado?faces-redirect=true";
 	}
 	
-	public void remover() {
+	public void remover(Estado estado) {
 		System.out.println("Removendo estado " + estado.getNome());
 		new DAO<Estado>(Estado.class).remove(estado);
 	}
