@@ -2,8 +2,12 @@ package br.com.tads.controle;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import br.com.tads.dao.DAO;
 import br.com.tads.modelo.Despesa;
 
@@ -22,9 +26,9 @@ public class DespesaBean implements Serializable {
 		buscarDespesas();
 	}
 
-	public void carregarDespesaPorId() {
+	public void carregarDespesaPelaId() {
 		this.despesa = new DAO<Despesa>(Despesa.class).buscaPorId(idDespesa);
-		this.despesa.getId();		
+		this.despesa.getId();
 	}
 
 	public String gravarDespesa() {
@@ -40,22 +44,22 @@ public class DespesaBean implements Serializable {
 		this.despesa = new Despesa();
 		buscarDespesas();
 
-		return "Funcionario?faces-redirect=true";
+		return "despesa?faces-redirect=true";
 	}
 
 	public void remover(Despesa desp) {
 		System.out.println("Removendo despesa " + desp.getDescricao());
 		new DAO<Despesa>(Despesa.class).remove(desp);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Despesa excluída com sucesso!"));
 		buscarDespesas();
-
 	}
 
-	public List<Despesa> getdespesas() {
+	public List<Despesa> getDespesas() {
 		DAO<Despesa> dao = new DAO<Despesa>(Despesa.class);
 		if (this.despesas == null) {
 			this.despesas = dao.listaTodos();
-
-		}		
+		}
 		return despesas;
 
 	}
@@ -66,7 +70,9 @@ public class DespesaBean implements Serializable {
 			this.despesas = dao.listaTodos();
 		}
 	}
+
 	
+
 	public void criarNovoObjetoDespesa() {
 		despesa = new Despesa();
 	}
@@ -79,24 +85,14 @@ public class DespesaBean implements Serializable {
 		this.despesa = despesa;
 	}
 
-	public List<Despesa> getDespesas() {
-		DAO<Despesa> dao = new DAO<Despesa>(Despesa.class);
-		if (this.despesas == null) {
-			this.despesas = dao.listaTodos();
-		}
-		
-		return despesas;
-	}
-
-	public void setDespesas(List<Despesa> despesas) {
-		this.despesas = despesas;
-	}
-
 	public Long getIdDespesa() {
 		return idDespesa;
 	}
 
-	
+	public void setIdDespesa(Long idDespesa) {
+		this.idDespesa = idDespesa;
+	}
 
+		
 }
 	

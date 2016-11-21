@@ -10,21 +10,20 @@
 
 	<f:metadata>
 		<f:viewParam name="idDespesa" value="#{despesaBean.idDespesa}" />
-		<f:viewAction action="#{despesaBean.carregarDespesaPorId()}"
+		<f:viewAction action="#{despesaBean.carregarDespesaPelaId()}"
 			if="#{param.idDespesa != null}" />
 	</f:metadata>
-
 
 	<ui:define name="titulo">
 		<p:outputPanel>Cadastro de Despesa</p:outputPanel>
 	</ui:define>
-	
-	<p:messages autoUpdate="true" />
 
 	<ui:define name="conteudo">
 
 		<h:form id="formTabelaDespesas">
-		
+
+			<p:growl id="growl" showDetail="true" sticky="true" />
+
 			<p:commandButton value="Incluir despesa"
 				oncomplete="PF('dialogCadastroDespesa').show();"
 				update=":formCadastroDespesa"
@@ -32,55 +31,56 @@
 			<br></br>
 
 			<p:dataTable value="#{despesaBean.despesas}" var="despesa"
-				emptyMessage="Nenhuma despesa cadastrada." style="margin-bottom:0"
+				emptyMessage="Nenhuma despesa cadastrada" style="margin-bottom:0"
 				rows="20" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="10,20,30,50,100">
 
 				<f:facet name="header">
-					<h:outputText value="despesas" />
+					<h:outputText value="Despesas" />
 				</f:facet>
 
 				<p:column headerText="Data" filterBy="#{despesa.dataRegistro}"
-					filterMatchMode="contais">
+					sortBy="#{despesa.dataRegistro}" filterMatchMode="contains">
 					<h:outputText value="#{despesa.dataRegistro}" />
+				</p:column>
+
+				<p:column headerText="Descrição" filterBy="#{despesa.descricao}"
+					sortBy="#{despesa.descricao}" filterMatchMode="contains">
+					<h:outputText value="#{despesa.descricao}" />
+				</p:column>
+
+				<p:column headerText="Veiculo" filterBy="#{despesa.veiculo.placa}"
+					filterMatchMode="contains">
+					<h:outputText value="#{despesa.veiculo.placa}" />
 				</p:column>
 
 				<p:column headerText="Tipo de despesa"
 					filterBy="#{despesa.tipoDespesa.descricao}"
-					filterMatchMode="contais">
+					sortBy="#{despesa.tipoDespesa.descricao}"
+					filterMatchMode="contains">
 					<h:outputText value="#{despesa.tipoDespesa.descricao}" />
 				</p:column>
 
-				<p:column headerText="Descrição" filterBy="#{despesa.descricao}"
+				<p:column headerText="Funcionario"
+					filterBy="#{despesa.pessoa.nomeRazaoSocial}"
+					sortBy="#{despesa.pessoa.nomeRazaoSocial}"
 					filterMatchMode="contains">
-					<h:outputText value="#{despesa.descricao}" />
+					<h:outputText value="#{despesa.pessoa.nomeRazaoSocial}" />
 				</p:column>
-
-				<p:column headerText="Valor Total" filterBy="#{despesa.valorTotal}"
-					filterMatchMode="contains">
-					<h:outputText value="#{despesa.valorTotal}" />
-				</p:column>
-
-				<p:column headerText="Placa Veículo"
-					filterBy="#{despesa.veiculo.placa}" filterMatchMode="contais">
-					<h:outputText value="#{despesa.veiculo.placa}" />
-				</p:column>
-
 
 				<p:column style="width:100px" headerText="Ações">
 					<p:commandButton title="Alterar"
-						oncomplete="PF('dialogCadastrodespesa').show();" alt="Alterar"
+						oncomplete="PF('dialogCadastroDespesa').show();" alt="Alterar"
 						update=":formCadastroDespesa" icon="ui-icon-pencil">
 						<f:setPropertyActionListener value="#{despesa}"
 							target="#{despesaBean.despesa}" />
 					</p:commandButton>
 
-					<p:commandButton actionListener="#{despesaBean.remover(despesa)}"
+					<p:commandButton actionListener="#{despesaBean.remover(desp)}"
 						icon="ui-icon-trash" title="Inativar" update="@form"
 						alt="Inativar">
 						<p:confirm header="Confirmação" message="Deseja inativar?" />
-
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -93,24 +93,23 @@
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
 
-			
-
 		</h:form>
 
-		<p:dialog header="Nova Despesa" 
-				  widgetVar="dialogCadastroDespesa"
-				  modal="true" appendTo="@(body)"	resizable="false" id="despesa-dialog">
+		<p:dialog header="Cadastro de Despesa"
+			widgetVar="dialogCadastroDespesa" modal="true" appendTo="@(body)"
+			resizable="false" id="despesa-dialog" closeEscape="true">
 
 			<h:form id="formCadastroDespesa">
 				<h:panelGrid columns="2">
 
-					<p:outputLabel value="Data" for="data" />
-					<p:calendar id="data" size="10"	value="#{despesaBean.despesa.dataRegistro}" 
-								timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true"/>
-
-					<p:outputLabel value="Tipo de Despesa" for="tipoDespesa" />
+					<p:outputLabel value="Data:" for="data-despesa" />
+					<p:calendar id="data-despesa" size="10"
+						value="#{despesaBean.despesa.dataRegistro}"
+						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
+					
+					<p:outputLabel value="Tipo de Despesa:" />
 					<p:selectOneMenu id="tipoDespesa"
-						value="#{despesaBean.despesa.tipoDespesa.descricao}"
+						value="#{despesaBean.despesa.tipoDespesa}"
 						converter="converterTipoDespesa" effect="fade" filter="true"
 						filterMarchMode="startsWish">
 						<f:selectItem itemLabel="Selecione o tipo de despesa" />
@@ -118,38 +117,38 @@
 							var="tipoDespesa" itemLabel="#{tipoDespesa.descricao}"
 							itemValue="#{tipoDespesa}" />
 					</p:selectOneMenu>
-
-					<p:outputLabel value="Veiculo" for="veiculo" />
+				
+					<p:outputLabel value="Veículo:" />
 					<p:selectOneMenu id="veiculo"
-						value="#{despesaBean.despesa.veiculo.placa}"
+						value="#{despesaBean.despesa.veiculo}"
 						converter="converterVeiculo" effect="fade" filter="true"
 						filterMarchMode="startsWish">
 						<f:selectItem itemLabel="Selecione o veículo" />
 						<f:selectItems value="#{veiculoBean.veiculos}" var="veiculo"
 							itemLabel="#{veiculo.placa}" itemValue="#{veiculo}" />
 					</p:selectOneMenu>
-
-					<p:outputLabel value="Funcionário" for="funcionario" />
+					
+					<p:outputLabel value="Funcionario:" />
 					<p:selectOneMenu id="funcionario"
-						value="#{despesaBean.despesa.funcionario.nomeRazaoSocial}"
+						value="#{despesaBean.despesa.pessoa}"
 						converter="converterFuncionario" effect="fade" filter="true"
 						filterMarchMode="startsWish">
-						<f:selectItem itemLabel="Selecione o funcionário " />
+						<f:selectItem itemLabel="Selecione o funcionario" />
 						<f:selectItems value="#{funcionarioBean.funcionarios}"
 							var="funcionario" itemLabel="#{funcionario.nomeRazaoSocial}"
 							itemValue="#{funcionario}" />
-					</p:selectOneMenu>
-
-					<p:outputLabel value="Descrição despesa:" />
+					</p:selectOneMenu> 
+					
+					<p:outputLabel value="Descrição*:" />
 					<p:inputText id="descricaoDespesa"
-						value="#{despesaBean.despesa.descricao}" maxlength="100" size="50" />
+						value="#{despesaBean.despesa.descricao}" required="true"
+						requiredMessage="campo obrigatorio" />
 
-
-					<p:outputLabel value="Valor:" />
+					<p:outputLabel value="Valor da despesa*:" />
 					<p:inputText id="valorDespesa"
 						value="#{despesaBean.despesa.valorTotal}" required="true"
-						requiredMessage="campo obrigatorio">
-					</p:inputText>
+						requiredMessage="campo obrigatorio" />
+
 
 					<p:commandButton value="Salvar Dados"
 						action="#{despesaBean.gravarDespesa()}"

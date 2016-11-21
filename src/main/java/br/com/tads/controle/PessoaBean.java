@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import br.com.tads.dao.DAO;
 import br.com.tads.modelo.Funcionario;
@@ -42,7 +43,7 @@ public class PessoaBean implements Serializable {
 		this.pessoa = new Pessoa();
 		buscarPessoas();
 
-		return "Pessoa?faces-redirect=true";
+		return "clienteFornecedor?faces-redirect=true";
 
 	}
 

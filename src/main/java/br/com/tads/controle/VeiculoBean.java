@@ -5,7 +5,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import br.com.tads.dao.DAO;
-import br.com.tads.modelo.Cidade;
 import br.com.tads.modelo.Veiculo;
 
 @ManagedBean
@@ -17,10 +16,10 @@ public class VeiculoBean implements Serializable {
 	private Long idVeiculo;
 	private List<Veiculo> veiculos;
 
-	public VeiculoBean() {
+	public VeiculoBean(){
 		buscarVeiculos();
 	}
-
+	
 	public void carregarVeiculoPorId() {
 		this.veiculo = new DAO<Veiculo>(Veiculo.class).buscaPorId(idVeiculo);
 		this.veiculo.getId();		

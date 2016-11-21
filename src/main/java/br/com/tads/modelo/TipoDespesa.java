@@ -20,7 +20,7 @@ public class TipoDespesa implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="idTipoDespesa")
+	@Column(name="id_tipo_despesa")
 	private Long id;
 
 	@NotEmpty

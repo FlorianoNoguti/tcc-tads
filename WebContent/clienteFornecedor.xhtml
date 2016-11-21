@@ -112,8 +112,7 @@
 						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
 
 					<p:outputLabel value="Sexo*:" />
-					<p:selectOneMenu id="sexo"
-						value="#{pessoaBean.pessoa.sexo}">
+					<p:selectOneMenu id="sexo" value="#{pessoaBean.pessoa.sexo}">
 						<f:selectItem itemLabel="Selecione o sexo" />
 						<f:selectItems value="#{pessoaBean.sexos}" var="sexo"
 							itemLabel="#{sexo.descricao}" itemValue="#{descricao}" />
@@ -125,8 +124,9 @@
 						requiredMessage="campo obrigatorio" mask="999.999.999-99" />
 
 					<p:outputLabel value="Rg/Inscr.Estadual*:" />
-					<p:inputText id="pessoaRgInscrEst" value="#{pessoaBean.pessoa.rgInscrEstadual}" 
-						required="true" requiredMessage="campo obrigatorio" />						
+					<p:inputText id="pessoaRgInscrEst"
+						value="#{pessoaBean.pessoa.rgInscrEstadual}" required="true"
+						requiredMessage="campo obrigatorio" />
 
 					<p:outputLabel value="Telefone*:" />
 					<p:inputMask id="pessoaTelefone"
@@ -168,6 +168,15 @@
 						value="#{pessoaBean.pessoa.longitude}" required="true"
 						requiredMessage="campo obrigatorio" />
 
+					<p:outputLabel value="Estado:" />
+					<p:selectOneMenu id="estado" value="#{pessoaBean.pessoa.estado}"
+						converter="converterEstado" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione o estado" />
+						<f:selectItems value="#{estadoBean.estados}" var="estado"
+							itemLabel="#{estado.nome}" itemValue="#{estado}" />
+					</p:selectOneMenu>
+					
 					<p:outputLabel value="Cidade*:" />
 					<p:selectOneMenu id="cidade" value="#{pessoaBean.pessoa.cidade}"
 						converter="converterCidade" effect="fade" filter="true"

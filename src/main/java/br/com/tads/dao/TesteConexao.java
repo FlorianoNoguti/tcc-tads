@@ -11,8 +11,8 @@ public class TesteConexao {
 			DAO dao = new DAO(null);
 			Estado estado = new Estado();
 			
-			estado.setNome("Goiás");
-			estado.setSigla("GO");
+			estado.setNome("São Paulo");
+			estado.setSigla("SP");
 			
 			
 			dao.adiciona(estado);

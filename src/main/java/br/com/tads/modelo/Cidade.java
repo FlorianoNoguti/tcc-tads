@@ -114,8 +114,7 @@ public class Cidade implements Serializable {
 		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
-	}   
-	
+	}
 	
    
 }

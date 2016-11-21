@@ -9,6 +9,7 @@ import javax.faces.convert.FacesConverter;
 
 import br.com.tads.dao.DAO;
 import br.com.tads.modelo.Funcionario;
+import br.com.tads.modelo.Pessoa;
 
 
 @FacesConverter("converterFuncionario")
@@ -17,9 +18,9 @@ public class ConverterFuncionario implements Converter{
 		public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 			if (value != null && value.trim().length() > 0) {
 				try {
-					DAO dao = new DAO(Funcionario.class);
-					Object funcionario = dao.buscaPorId(Long.parseLong(value));
-					return funcionario;
+					DAO dao = new DAO(Pessoa.class);
+					Object pessoa = dao.buscaPorId(Long.parseLong(value));
+					return pessoa;
 				} catch (NumberFormatException e) {
 					throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro no converter funcionario",
 							"Não é um funcionario válido"));

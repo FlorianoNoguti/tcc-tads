@@ -43,7 +43,7 @@ public class DestinoBean implements Serializable{
 
 		this.destino = new Destino();
 
-		return "Destino?faces-redirect=true";
+		return "destino?faces-redirect=true";
 		}
 	
 	public void remover(Destino destino){

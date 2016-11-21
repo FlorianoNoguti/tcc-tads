@@ -16,7 +16,7 @@ public class FuncionarioBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Funcionario funcionario = new Funcionario();
-	private Long idFuncionario;
+	private Long idPessoa;
 	private List<Funcionario> funcionarios;
 
 	public FuncionarioBean() {
@@ -24,7 +24,7 @@ public class FuncionarioBean implements Serializable {
 	}
 
 	public void carregarFuncionarioPelaId() {
-		this.funcionario = new DAO<Funcionario>(Funcionario.class).buscaPorId(idFuncionario);
+		this.funcionario = new DAO<Funcionario>(Funcionario.class).buscaPorId(idPessoa);
 		this.funcionario.getId();
 	}
 
@@ -41,7 +41,7 @@ public class FuncionarioBean implements Serializable {
 		this.funcionario = new Funcionario();
 		buscarFuncionarios();
 
-		return "Funcionario?faces-redirect=true";
+		return "funcionario?faces-redirect=true";
 	}
 
 	public void remover(Funcionario func) {
@@ -83,12 +83,10 @@ public class FuncionarioBean implements Serializable {
 		this.funcionario = Funcionario;
 	}
 
-	public Long getIdFuncionario() {
-		return idFuncionario;
+	public Long getIdPessoa() {
+		return idPessoa;
 	}
 
-	public void setIdFuncionario(Long idFuncionario) {
-		this.idFuncionario = idFuncionario;
-	}
+	
 
 }

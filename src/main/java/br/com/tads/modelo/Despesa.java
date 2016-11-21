@@ -30,17 +30,17 @@ public class Despesa implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dataRegistro;
 	
-	@NotNull
-	@Column(name="veiculo",nullable=false)
+	@JoinColumn(name = "id_veiculo")
+	@ManyToOne
 	private Veiculo veiculo;
 	
-	@NotNull
-	@Column(name="tipoDespesa",nullable=false)
+	@JoinColumn(name = "id_tipo_despesa")
+	@ManyToOne
 	private TipoDespesa tipoDespesa;
 	
-	@NotNull
-	@Column(name="funcionario",nullable=false)
-	private Funcionario funcionario;
+	@JoinColumn(name = "id_pessoa")
+	@ManyToOne
+	private Pessoa pessoa;
 	
 	
 	@Column(name="descricaoDespesa")
@@ -81,12 +81,13 @@ public class Despesa implements Serializable {
 		this.tipoDespesa = tipoDespesa;
 	}
 
-	public Funcionario getFuncionario() {
-		return funcionario;
+	
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public String getDescricao() {
@@ -107,6 +108,50 @@ public class Despesa implements Serializable {
 
 	public Long getId() {
 		return id;
-	} 
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
+		result = prime * result + ((tipoDespesa == null) ? 0 : tipoDespesa.hashCode());
+		result = prime * result + ((veiculo == null) ? 0 : veiculo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Despesa other = (Despesa) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (pessoa == null) {
+			if (other.pessoa != null)
+				return false;
+		} else if (!pessoa.equals(other.pessoa))
+			return false;
+		if (tipoDespesa == null) {
+			if (other.tipoDespesa != null)
+				return false;
+		} else if (!tipoDespesa.equals(other.tipoDespesa))
+			return false;
+		if (veiculo == null) {
+			if (other.veiculo != null)
+				return false;
+		} else if (!veiculo.equals(other.veiculo))
+			return false;
+		return true;
+	}
+
 	
 }

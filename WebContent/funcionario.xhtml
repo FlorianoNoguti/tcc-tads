@@ -9,9 +9,9 @@
 <ui:composition template="template.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="idFuncionario" value="#{funcionarioBean.idFuncionario}" />
+		<f:viewParam name="idPessoa" value="#{funcionarioBean.idPessoa}" />
 		<f:viewAction action="#{funcionarioBean.carregarFuncionarioPelaId()}"
-			if="#{param.idFuncionario != null}" />
+			if="#{param.idPessoa != null}" />
 	</f:metadata>
 
 	<ui:define name="titulo">
@@ -80,9 +80,9 @@
 		</h:form>
 
 		<p:dialog header="Cadastro de Funcionario"
-			widgetVar="dialogCadastroFuncionario"
-			modal="true" appendTo="@(body)" resizable="false" id="cidade-dialog">
-			
+			widgetVar="dialogCadastroFuncionario" modal="true" appendTo="@(body)"
+			resizable="false" id="cidade-dialog">
+
 			<h:form id="formCadastroFunc">
 				<h:panelGrid columns="4">
 
@@ -91,9 +91,9 @@
 						value="#{funcionarioBean.funcionario.nomeRazaoSocial}"
 						required="true" requiredMessage="campo obrigatorio" size="50"
 						maxlength="100" />
-						
-						<p:outputLabel/>
-						<br></br>
+
+					<p:outputLabel />
+					<br></br>
 
 
 					<p:outputLabel value="Sexo*:" />
@@ -104,7 +104,7 @@
 							itemLabel="#{sexo.descricao}" itemValue="#{descricao}" />
 					</p:selectOneMenu>
 
-					<p:outputLabel value="Data de Nascimento*:" for="data-nascimento"/>
+					<p:outputLabel value="Data de Nascimento*:" for="data-nascimento" />
 					<p:calendar id="data-nascimento" size="10"
 						value="#{funcionarioBean.funcionario.dtNascimento}"
 						timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy" mask="true" />
@@ -153,6 +153,25 @@
 					<p:inputText id="bairroFunc"
 						value="#{funcionarioBean.funcionario.bairro}" required="true"
 						requiredMessage="campo obrigatorio" />
+
+					<p:outputLabel value="Estado:" />
+					<p:selectOneMenu id="estado" value="#{funcionarioBean.funcionario.estado}"
+						converter="converterEstado" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione o estado" />
+						<f:selectItems value="#{estadoBean.estados}" var="estado"
+							itemLabel="#{estado.nome}" itemValue="#{estado}" />
+					</p:selectOneMenu>
+
+					<p:outputLabel value="Cidade*:" />
+					<p:selectOneMenu id="cidade"
+						value="#{funcionarioBean.funcionario.cidade}"
+						converter="converterCidade" effect="fade" filter="true"
+						filterMarchMode="startsWish">
+						<f:selectItem itemLabel="Selecione a cidade" />
+						<f:selectItems value="#{cidadeBean.cidades}" var="cidade"
+							itemLabel="#{cidade.nome}" itemValue="#{cidade}" />
+					</p:selectOneMenu>
 
 
 					<p:outputLabel value="Telefone*:" />
