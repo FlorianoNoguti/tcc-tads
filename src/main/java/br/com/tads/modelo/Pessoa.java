@@ -318,6 +318,7 @@ public class Pessoa implements Serializable {
 		result = prime * result + ((cidade == null) ? 0 : cidade.hashCode());
 		result = prime * result + ((estado == null) ? 0 : estado.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nomeRazaoSocial == null) ? 0 : nomeRazaoSocial.hashCode());
 		return result;
 	}
 
@@ -345,8 +346,15 @@ public class Pessoa implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (nomeRazaoSocial == null) {
+			if (other.nomeRazaoSocial != null)
+				return false;
+		} else if (!nomeRazaoSocial.equals(other.nomeRazaoSocial))
+			return false;
 		return true;
 	}
+
+	
 
 	
 }

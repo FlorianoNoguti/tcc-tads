@@ -21,6 +21,7 @@ public class Contrato implements Serializable {
 	@Column(name="id_contrato")
 	private Long id;
 
+	@Enumerated(EnumType.STRING)
 	private TipoContrato tipoContrato;
 	
 	@Temporal(TemporalType.DATE)
@@ -39,13 +40,16 @@ public class Contrato implements Serializable {
 	@ManyToOne
 	private Pessoa responsavel;
 	
-	@Column(name = "destino",nullable=false)
+	@JoinColumn(name = "id_destino")
+	@ManyToOne
 	private Destino destino;
 	
-	@Column(name = "funcionario", nullable=false)
+	@JoinColumn(name = "id_pessoa")
+	@ManyToOne
 	private Funcionario funcionario;
 	
-	@Column(name="veiculo", nullable = false)
+	@JoinColumn(name = "id_veiculo")
+	@ManyToOne
 	private Veiculo veiculo;
 	
 	@Column(name="valorTotal", nullable=false)
